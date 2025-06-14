@@ -22,6 +22,8 @@ struct ChatView: View {
       ExyteChat.ChatView(messages: viewModel.messages, chatType: .conversation) { draft in
             viewModel.send(draft: draft)
         }.setAvailableInputs([AvailableInputType.text])
-         .showMessageMenuOnLongPress(false)
+        .showMessageMenuOnLongPress(false).enableLoadMore(pageSize: 0) { _ in
+          print("dkeodkoek")
+        }
     }
 }

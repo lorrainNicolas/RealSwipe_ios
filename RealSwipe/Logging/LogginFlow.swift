@@ -14,16 +14,19 @@ class LogginFlow: ObservableObject {
   
   enum Screen: Hashable, LogginProgressionProtcol {
     case passwordLogging(PasswordLoggingStepViewModel)
+    
     case passwordRegister(PasswordRegisterStepViewModel)
     case name(NameStepViewModel)
     case gender(GenderStepViewModel)
+    case birthday(BirthdayStepViewModel)
     
     var percent: CGFloat? {
       switch self {
       case .passwordLogging: return nil
       case .passwordRegister: return 0.25
       case .name: return 0.5
-      case .gender: return 0.75
+      case .birthday: return 0.75
+      case .gender: return 1
       }
     }
   }

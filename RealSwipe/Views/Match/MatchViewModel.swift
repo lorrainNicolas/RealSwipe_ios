@@ -7,7 +7,8 @@
 
 import Foundation
 
-class MatchViewModel: ObservableObject {
+@MainActor
+final class MatchViewModel: ObservableObject {
   @Published var cards: [CardViewModel] = [ .init(background: .blue),
                                             .init(background: .yellow),
                                             .init(background: .red),

@@ -16,7 +16,7 @@ struct LoggingEndpoint: Endpoint {
   
   let input: POST<InputData>
   
-  typealias Output = AuthResponce
+  typealias Output = AuthResponse
   
   var token: String? = nil
   var path: String { "auth/login" }

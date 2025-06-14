@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 
 struct User: Codable {
-  let userId: String
+  let userId: UUID
   let firstName: String
+  let birthday: Date
 }

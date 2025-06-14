@@ -14,18 +14,20 @@ struct RegisterEndpoint: Endpoint {
     let genderId: Int
     let email: String
     let password: String
+    let birthday: Double
     
     enum CodingKeys : String, CodingKey {
       case firstName = "first_name"
       case genderId = "gender_id"
       case email = "email"
       case password = "password"
+      case birthday = "birthdate"
     }
   }
   
   let input: POST<InputData>
   
-  typealias Output = AuthResponce
+  typealias Output = AuthResponse
   
   var token: String? = nil
   var path: String { "auth/register" }

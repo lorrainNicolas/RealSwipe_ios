@@ -20,6 +20,11 @@ enum LinearGradients {
                                            startPoint: .topLeading,
                                            endPoint: .bottomTrailing)
   
+  static let unselectedTool = LinearGradient(colors: [Color.gray,
+                                                      Color.gray.opacity(0.7)],
+                                           startPoint: .topLeading,
+                                           endPoint: .bottomTrailing)
+  
   static let shape = LinearGradient(colors: [Color(UIColor(red: 234.0/255.0, green: 91.0/255.0, blue: 98.0/250.0, alpha: 1)),
                                              Color(UIColor(red: 241.0/255.0, green: 156.0/255.0, blue: 97.0/250.0, alpha: 1))],
                                     startPoint: .top,

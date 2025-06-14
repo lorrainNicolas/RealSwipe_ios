@@ -27,25 +27,8 @@ struct MatchView: View {
         }.padding(.top, 10)
           .padding(.bottom, 10)
           .padding(.horizontal, 6)
-        
-//        CircleButtonView(image: Image(systemName: "camera.fill"))
-//          .padding(.trailing, 20)
-//          .frame(maxWidth: .infinity, alignment: .trailing)
       }.padding(.bottom, 100)
     }
   }
 }
 
-struct CircleButtonView: View {
-  let image: Image
-  var body: some View {
-    image
-        .resizable()
-        .renderingMode(.template)
-        .aspectRatio(contentMode: .fit)
-        .frame(width: 30, height: 30)
-        .foregroundColor(Color.white)
-        .padding(15)
-        .background(LinearGradients.selectedTool.clipShape(Circle()))
-  }
-}

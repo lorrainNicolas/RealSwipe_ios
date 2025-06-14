@@ -20,11 +20,12 @@ struct TabContentView: View {
           MatchView(viewModel: MatchViewModel())
             .tabItem(for: TabBarIdentifer.swipe)
             
-          MessageListView(viewModel: MessageListViewModel())
+          ConversationView(viewModel: ConversationViewModel(userSession: viewModel.userSession,
+                                                            api: APIClient()))
             .tabItem(for: TabBarIdentifer.message)
 
-          ProfilView(viewModel: ProfilViewModel(userSession: viewModel.userSession))
-            .tabItem(for: TabBarIdentifer.profil)
+          SettingsView(viewModel: SettingsViewModel(userSession: viewModel.userSession))
+            .tabItem(for: TabBarIdentifer.settings)
           
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)

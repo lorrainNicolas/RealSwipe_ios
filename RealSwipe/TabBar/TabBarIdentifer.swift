@@ -11,13 +11,13 @@ import UIKit
 enum TabBarIdentifer: Tabbable, CaseIterable {
     case swipe
     case message
-    case profil
+    case settings
     
     var title: String {
         switch self {
         case .swipe: return "Swipe"
         case .message: return "message"
-        case .profil: return "profil"
+        case .settings: return "profil"
         }
     }
     
@@ -25,7 +25,7 @@ enum TabBarIdentifer: Tabbable, CaseIterable {
         switch self {
         case .swipe: return UIImage(systemName:"heart")
         case .message: return UIImage(systemName:"message")
-        case .profil: return UIImage(systemName:"person")
+        case .settings: return UIImage(systemName:"person")
         }
     }
   
@@ -33,7 +33,7 @@ enum TabBarIdentifer: Tabbable, CaseIterable {
       switch self {
       case .swipe: return UIImage(systemName:"heart.fill")
       case .message: return UIImage(systemName:"message.fill")
-      case .profil: return UIImage(systemName:"person.fill")
+      case .settings: return UIImage(systemName:"person.fill")
       }
   }
     

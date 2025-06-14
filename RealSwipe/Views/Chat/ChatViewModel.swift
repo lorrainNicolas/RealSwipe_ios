@@ -33,23 +33,23 @@ final class ChatViewModel: ObservableObject {
   }
   
   func refresh() {
-    Task { [weak self] in
-      do {
-        let value = try await self?.apiClient.sendRequest(to: GetMessageEndpoint())
-        self?.messages = value?.first?.messages.map({
-          Message(id: $0.id,
-                  user: .init(id:  UUID().uuidString,
-                              name: "",
-                              avatarURL: nil,
-                              type: .current),
-                  status: .read,
-                  createdAt: Date(),
-                  text: $0.message,
-                  attachments: [],
-                  giphyMediaId: nil,
-                  reactions: [], recording: nil, replyMessage: nil)
-        }) ?? []
-      }}
+//    Task { [weak self] in
+//      do {
+//        let value = try await self?.apiClient.sendRequest(to: GetMessageEndpoint())
+//        self?.messages = value?.first?.messages.map({
+//          Message(id: $0.id,
+//                  user: .init(id:  UUID().uuidString,
+//                              name: "",
+//                              avatarURL: nil,
+//                              type: .current),
+//                  status: .read,
+//                  createdAt: Date(),
+//                  text: $0.message,
+//                  attachments: [],
+//                  giphyMediaId: nil,
+//                  reactions: [], recording: nil, replyMessage: nil)
+//        }) ?? []
+//      }}
   }
   
   func send(draft: DraftMessage) {

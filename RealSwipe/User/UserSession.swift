@@ -46,7 +46,6 @@ class UserSession: Identifiable {
   }
   
   static func loadFromCache(token: String) -> UserSession? {
-    let user: User
     if let userData = UserDefaults.standard.data(forKey: Self.key) {
       if let user = try? JSONDecoder().decode(User.self, from: userData) {
         return .init(token: token, user: user)

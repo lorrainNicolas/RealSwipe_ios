@@ -16,6 +16,7 @@ class GenderStepViewModel: ObservableObject, Navigable {
     let email: String
     let password: String
     let name: String
+    let date: TimeInterval
   }
   
   private let registerData: RegisterData
@@ -44,7 +45,7 @@ class GenderStepViewModel: ObservableObject, Navigable {
 
 private extension GenderStepViewModel {
   
-  func didSelect(_ sexe: Sexe) {
+  func didSelect(_ sexe: Gender) {
     guard !isLoading else { return }
     isLoading = true
     
@@ -54,7 +55,8 @@ private extension GenderStepViewModel {
         try await self?.authentificationService.register(firstName: registerData.name,
                                                          genderId: sexe.rawValue,
                                                          email: registerData.email,
-                                                         password: registerData.password)
+                                                         password: registerData.password,
+                                                         birthday: registerData.date)
         try? await Task.sleep(nanoseconds: 300_000_000)
         self?.isLoading = false
       } catch {

@@ -60,29 +60,36 @@ class AuthentificationService {
     _userSessionPublisher.send(nil)
   }
   
-  func register(firstName: String, genderId: Int, email: String, password: String) async throws {
+  func register(firstName: String,
+                genderId: Int,
+                email: String,
+                password: String,
+                birthday: TimeInterval) async throws {
     let logginData = try await apiClient.sendRequest(to: RegisterEndpoint( data: .init(firstName: firstName,
                                                                                        genderId: 1,
                                                                                        email: email,
-                                                                                       password: password)))
+                                                                                       password: password,
+                                                                                       birthday: birthday)))
     
     guard let authTokenData = logginData.authToken.data(using: .utf8) else { throw Error.failure }
     keychainHelper.save(authTokenKey, data: authTokenData)
     let userSession = UserSession.build(from: logginData.authToken,
                                         user: User(userId: logginData.user.id,
-                                                   firstName: logginData.user.firstName))
+                                                   firstName: logginData.user.firstName,
+                                                   birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
     _userSessionPublisher.send(userSession)
     
   }
   
-  func loggin( email: String, password: String) async throws {
+  func loggin(email: String, password: String) async throws {
     let logginData = try await apiClient.sendRequest(to: LoggingEndpoint(data: .init(email: email,
                                                                                         password: password)))
     guard let authTokenData = logginData.authToken.data(using: .utf8) else { throw Error.failure }
     keychainHelper.save(authTokenKey, data: authTokenData)
     let userSession = UserSession.build(from: logginData.authToken,
                                         user: User(userId: logginData.user.id,
-                                                   firstName: logginData.user.firstName))
+                                                   firstName: logginData.user.firstName,
+                                                   birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
     _userSessionPublisher.send(userSession)
   }
 }

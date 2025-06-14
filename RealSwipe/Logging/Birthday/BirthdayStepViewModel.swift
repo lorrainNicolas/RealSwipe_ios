@@ -1,5 +1,5 @@
 //
-//  GenderStepViewModel.swift
+//  BirthdayStepViewModel.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 12/03/2023.
@@ -10,16 +10,17 @@ import SwiftUI
 import Combine
 
 @MainActor
-class NameStepViewModel: ObservableObject, Navigable {
+class BirthdayStepViewModel: ObservableObject, Navigable {
   
   private let _logginFlowPublish = PassthroughSubject<LogginFlow.Screen, Never>()
   var logginFlowPublish: AnyPublisher<LogginFlow.Screen, Never> { _logginFlowPublish.eraseToAnyPublisher() }
   
-  let title: String = "Quel est ton prénom ?"
+  let title: String = "Quel est ton âge ?"
   
   struct RegisterData {
     let email: String
     let password: String
+    let name: String
   }
   
   private let registerData: RegisterData
@@ -28,10 +29,11 @@ class NameStepViewModel: ObservableObject, Navigable {
     self.registerData = registerData
   }
   
-  func onTapButton(_ name: String) {
-    _logginFlowPublish.send(.birthday(.init(registerData: .init(email: registerData.email,
+  func onTapButton(_ date: Date) {
+    _logginFlowPublish.send(.gender(.init(registerData: .init(email: registerData.email,
                                                               password: registerData.password,
-                                                              name: name))))
+                                                              name: registerData.name,
+                                                              date: date.timeIntervalSince1970))))
   }
 }
 

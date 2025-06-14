@@ -38,6 +38,12 @@ struct LogginFlowScreen: View {
                 .id(vm.id)
                 .modifier(BackNavigationViewModifier())
               
+            case .birthday(let vm):
+              BirthdayStepScreen(viewModel: vm)
+                .environmentObject(logginFlow)
+                .id(vm.id)
+                .modifier(BackNavigationViewModifier())
+              
             case .gender(let vm):
               GenderStepScreen(viewModel: vm)
                 .environmentObject(logginFlow)

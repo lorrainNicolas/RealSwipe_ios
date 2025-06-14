@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-class CardViewModel: CardViewModelProtocol, ObservableObject {
+@MainActor
+final class CardViewModel: CardViewModelProtocol, ObservableObject {
   enum Status {
     case `default`
     case isLiking
