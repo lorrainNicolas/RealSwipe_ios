@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 enum TabBarIdentifer: Tabbable, CaseIterable {
     case swipe
@@ -21,19 +21,19 @@ enum TabBarIdentifer: Tabbable, CaseIterable {
         }
     }
     
-    var image: UIImage? {
+    var image: Image {
         switch self {
-        case .swipe: return UIImage(systemName:"heart")
-        case .message: return UIImage(systemName:"message")
-        case .settings: return UIImage(systemName:"person")
+        case .swipe: return Image(systemName:"flame")
+        case .message: return Image(systemName:"message")
+        case .settings: return Image(systemName:"person")
         }
     }
   
-    var imageFill: UIImage? {
+    var imageFill: Image {
       switch self {
-      case .swipe: return UIImage(systemName:"heart.fill")
-      case .message: return UIImage(systemName:"message.fill")
-      case .settings: return UIImage(systemName:"person.fill")
+      case .swipe: return Image(systemName:"flame.fill")
+      case .message: return Image(systemName:"message.fill")
+      case .settings: return Image(systemName:"person.fill")
       }
   }
     

@@ -7,52 +7,51 @@
 
 import Foundation
 import ExyteChat
+import Combine
+
+struct WebSocketMessageData: Codable {
+    let message: String
+    let conversationId: UUID
+    let userId: UUID
+}
 
 @MainActor
 final class ChatViewModel: ObservableObject {
-  
+
   @Published var messages: [Message] = []
   @Published var chatTitle: String = ""
-  let webSocketConnection: WebSocketConnection
+  
+  private var bag = Set<AnyCancellable>()
+
+  let conversation: UUID
   let apiClient: APIClientProtocol
+  let userSession: UserSession
   
-  init(apiClient: APIClientProtocol = APIClient()) {
+  init(apiClient: APIClientProtocol = APIClient(),
+       userSession: UserSession,
+       conversation: UUID) {
     self.apiClient = apiClient
-    webSocketConnection = WebSocketConnection(url: URL.init(string: "ws://localhost:8080/ws?token=")!)
+    self.conversation = conversation
+    self.userSession = userSession
     
-    Task {
-      do {
-        for try await message in webSocketConnection.receive() {
-          self.refresh()
-          print(message)
-        }
-      } catch {
-        print("Error receiving messages:", error)
-      }
-    }
-  }
-  
-  func refresh() {
-//    Task { [weak self] in
-//      do {
-//        let value = try await self?.apiClient.sendRequest(to: GetMessageEndpoint())
-//        self?.messages = value?.first?.messages.map({
-//          Message(id: $0.id,
-//                  user: .init(id:  UUID().uuidString,
-//                              name: "",
-//                              avatarURL: nil,
-//                              type: .current),
-//                  status: .read,
-//                  createdAt: Date(),
-//                  text: $0.message,
-//                  attachments: [],
-//                  giphyMediaId: nil,
-//                  reactions: [], recording: nil, replyMessage: nil)
-//        }) ?? []
-//      }}
+    SyncMessageService.shared.didReceivedMessage.sink {
+      self.messages.append(Message(id: UUID().uuidString,
+                                   user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: false),
+                                   text: $0.message))
+    }.store(in: &bag)
+
   }
   
   func send(draft: DraftMessage) {
-    
+    Task {
+      self.messages.append(Message(id: UUID().uuidString,
+                                   user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: true),
+                                   text: draft.text))
+      
+      try await apiClient.sendRequest(to: PostSendMessageEndpoint(data: .init(message: draft.text),
+                                                                  conversation: conversation,
+                                                                  token: userSession.token))
+      
+    }
   }
 }

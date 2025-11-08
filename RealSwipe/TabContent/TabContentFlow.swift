@@ -13,11 +13,11 @@ class TabContentFlow: ObservableObject {
   @Published var navigationPath: [Screen] = []
   
   enum Screen: Hashable {
-    case message
+    case message(conversationId: UUID)
   }
 
-  func pushMessage() {
-    navigationPath.append(.message)
+  func pushMessage(conversationId: UUID) {
+    navigationPath.append(.message(conversationId: conversationId))
   }
 
 }

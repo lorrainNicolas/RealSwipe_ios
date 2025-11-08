@@ -92,8 +92,6 @@ struct CardViewModifier: ViewModifier {
         let isHorizontal = (draggingAction == .draggingHorizontally)
         draggingAction = nil
         guard isHorizontal else { return }
-        onFinishAnimation = true
-        
         if value.x > -minHorizontalTranslation && value.x < minHorizontalTranslation {
           resetCard()
         } else if value.x >= minHorizontalTranslation {
@@ -125,6 +123,7 @@ struct CardViewModifier: ViewModifier {
   }
   
   private func resetCard() {
+    onFinishAnimation = true
     withAnimation(.spring(duration: 0.3, bounce: 0.4), completionCriteria: .logicallyComplete) {
       translation = .zero
     } completion: {
@@ -133,7 +132,8 @@ struct CardViewModifier: ViewModifier {
   }
   
   private func likeCard() {
-    withAnimation(.linear(duration: 0.2), completionCriteria: .removed) {
+    onFinishAnimation = true
+    withAnimation(.linear(duration: 0.3), completionCriteria: .removed) {
       translation.x = parentGeometryProxy.size.width
     } completion: {
       onFinishAnimation = false
@@ -142,7 +142,8 @@ struct CardViewModifier: ViewModifier {
   }
   
   private func dislikeCard() {
-    withAnimation(.linear(duration: 0.2), completionCriteria: .removed) {
+    onFinishAnimation = true
+    withAnimation(.linear(duration: 0.3), completionCriteria: .removed) {
       translation.x = -parentGeometryProxy.size.width
     } completion: {
       onFinishAnimation = false
@@ -151,7 +152,8 @@ struct CardViewModifier: ViewModifier {
   }
 }
 
-protocol CardViewModelProtocol: Identifiable { }
+protocol CardViewModelProtocol: Identifiable {
+}
 
 struct CardContainerView<CardView: View, ViewModel: CardViewModelProtocol>: View {
   

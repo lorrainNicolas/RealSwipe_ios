@@ -34,19 +34,29 @@ struct TabBarView<TabItem: Tabbable>: View {
         ForEach(tabs) { tab in
           GeometryReader() { geometry in
             VStack(alignment: .center, spacing: 4) {
-              Image(uiImage: tab.image ?? UIImage())
-                  .resizable()
-                  .renderingMode(.template)
-                  .aspectRatio(contentMode: .fit)
-                  .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
-                  .foregroundColor(tabSelectionViewModel.getSelectedTabItem() == tab ? Color.white : Color.gray)
-                  .padding(tabSelectionViewModel.getSelectedTabItem() == tab ? Constants.imagePaddingWhenSelected : 0)
-                  .background(LinearGradients.selectedTool.opacity(tabSelectionViewModel.getSelectedTabItem() == tab ? 1 : 0).clipShape(Circle()))
-                  .offset(x: 0, y: tabSelectionViewModel.getSelectedTabItem() == tab ? -Constants.imageYOffsetWhenSelected : 0)
-                  .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5),
-                             value: tabSelectionViewModel.getSelectedTabItem())
-                                    
-                  if tabSelectionViewModel.getSelectedTabItem() != tab { Text(tab.title).font(.system(size: 10)).foregroundColor(.gray) }
+              
+              ZStack {
+                if tabSelectionViewModel.getSelectedTabItem() == tab {
+                  tab.imageFill
+                    .resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                } else {
+                  tab.image
+                    .resizable()
+                    .renderingMode(.template)
+                    .aspectRatio(contentMode: .fit)
+                }
+              }.geometryGroup()
+              .frame(width: Constants.imageSize.width, height: Constants.imageSize.height)
+              .foregroundColor(tabSelectionViewModel.getSelectedTabItem() == tab ? Color.white : Color.gray)
+              .padding(tabSelectionViewModel.getSelectedTabItem() == tab ? Constants.imagePaddingWhenSelected : 0)
+              .background(LinearGradients.selectedTool.opacity(tabSelectionViewModel.getSelectedTabItem() == tab ? 1 : 0).clipShape(Circle()))
+              .offset(x: 0, y: tabSelectionViewModel.getSelectedTabItem() == tab ? -Constants.imageYOffsetWhenSelected : 0)
+              .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.5, blendDuration: 0.5),
+                         value: tabSelectionViewModel.getSelectedTabItem())
+              
+              if tabSelectionViewModel.getSelectedTabItem() != tab { Text(tab.title).font(.system(size: 10)).foregroundColor(.gray) }
             }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
               .onTapGesture {
                  withAnimation(.spring()) {

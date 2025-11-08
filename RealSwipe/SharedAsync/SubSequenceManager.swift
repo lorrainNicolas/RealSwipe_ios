@@ -16,6 +16,7 @@ actor SubSequenceManager<Base: AsyncSequence & Sendable> where Base.Element: Sen
   init(_ base: Base) {
     self.base = base
     
+    
     Task { [weak self, base] in
       guard let self = self else { return }
       

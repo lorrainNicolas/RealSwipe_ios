@@ -27,6 +27,7 @@ struct TabView<TabItem: Tabbable, Content: View>: View {
       Colors
         .background
         .ignoresSafeArea()
+      
       ZStack(alignment: .bottom) {
           content
             .frame(maxWidth: .infinity, maxHeight: .infinity)

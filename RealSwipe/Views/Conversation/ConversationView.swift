@@ -23,9 +23,12 @@ struct ConversationView: View {
         .padding(.leading)
       
       List {
-        ForEach(viewModel.conversations) {
-          MessageView(userName: $0.name, message: nil).onTapGesture {
-            tabContentFlow.pushMessage()
+        ForEach(viewModel.conversations) { conversation in
+          
+          MessageView(userName: conversation.name, message: nil)
+            .contentShape(Rectangle())
+            .onTapGesture {
+              tabContentFlow.pushMessage(conversationId: conversation.conversationId)
           }.listRowBackground(Colors.contentBackground)
         }
       }.scrollContentBackground(.hidden)
@@ -38,20 +41,22 @@ private struct MessageView: View {
   let message: String?
   
   var body: some View {
-    HStack {
-      Circle()
-        .fill(.white)
-        .frame(height: 50)
-      
-      VStack(alignment: .leading) {
-        Text(userName)
-          .foregroundStyle(Colors.text)
-          .lineLimit(1)
+    ZStack {
+      HStack {
+        Circle()
+          .fill(.white)
+          .frame(height: 50)
         
-        Text(message ?? " ")
-          .foregroundStyle(Colors.text)
-          .lineLimit(1)
-   
+        VStack(alignment: .leading) {
+          Text(userName)
+            .foregroundStyle(Colors.text)
+            .lineLimit(1)
+          
+          Text(message ?? " ")
+            .foregroundStyle(Colors.text)
+            .lineLimit(1)
+          
+        }
       }
     }
   }

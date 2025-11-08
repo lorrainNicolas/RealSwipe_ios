@@ -33,6 +33,7 @@
 		2D2717A42DFDA0F70057D66D /* CircleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2717A32DFDA0F60057D66D /* CircleButtonView.swift */; };
 		2D2717A62DFDA73F0057D66D /* ProfilResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2717A52DFDA7300057D66D /* ProfilResponse.swift */; };
 		2D2717A82DFDF6020057D66D /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2717A72DFDF6000057D66D /* SectionView.swift */; };
+		2D2717AA2DFE08080057D66D /* ContentViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2717A92DFE08070057D66D /* ContentViewViewModel.swift */; };
 		2D39F98329BE689000F71B8F /* Navigable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39F98229BE689000F71B8F /* Navigable.swift */; };
 		2D39F98529BE78C600F71B8F /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39F98429BE78C600F71B8F /* ButtonView.swift */; };
 		2D39F98829BE791600F71B8F /* GenderStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D39F98729BE791600F71B8F /* GenderStepView.swift */; };
@@ -91,6 +92,12 @@
 		2DD484E329AD58C700D2BC89 /* LogginFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD484E229AD58C700D2BC89 /* LogginFlow.swift */; };
 		2DD484E929AD5B5500D2BC89 /* PasswordStepView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD484E829AD5B5500D2BC89 /* PasswordStepView.swift */; };
 		2DD484EB29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD484EA29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift */; };
+		2DF7006B2EBE4BE600617A3F /* SyncMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7006A2EBE4BE500617A3F /* SyncMessageService.swift */; };
+		2DF7006E2EBF577600617A3F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7006D2EBF576900617A3F /* UserModel.swift */; };
+		2DF7FF482EB8D9DB00617A3F /* CardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF472EB8D9D900617A3F /* CardImageView.swift */; };
+		2DF7FF4A2EB8D9F600617A3F /* CardLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF492EB8D9F500617A3F /* CardLabelView.swift */; };
+		2DF7FF4C2EB8DADF00617A3F /* CardSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF4B2EB8DADE00617A3F /* CardSectionView.swift */; };
+		2DFC83992DFE3B1B00239146 /* PostSendMessageEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DFC83982DFE3B1A00239146 /* PostSendMessageEndpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +147,7 @@
 		2D2717A32DFDA0F60057D66D /* CircleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleButtonView.swift; sourceTree = "<group>"; };
 		2D2717A52DFDA7300057D66D /* ProfilResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilResponse.swift; sourceTree = "<group>"; };
 		2D2717A72DFDF6000057D66D /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
+		2D2717A92DFE08070057D66D /* ContentViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewViewModel.swift; sourceTree = "<group>"; };
 		2D39F98229BE689000F71B8F /* Navigable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigable.swift; sourceTree = "<group>"; };
 		2D39F98429BE78C600F71B8F /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		2D39F98729BE791600F71B8F /* GenderStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenderStepView.swift; sourceTree = "<group>"; };
@@ -198,6 +206,12 @@
 		2DD484E229AD58C700D2BC89 /* LogginFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogginFlow.swift; sourceTree = "<group>"; };
 		2DD484E829AD5B5500D2BC89 /* PasswordStepView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordStepView.swift; sourceTree = "<group>"; };
 		2DD484EA29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordRegisterStepViewModel.swift; sourceTree = "<group>"; };
+		2DF7006A2EBE4BE500617A3F /* SyncMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMessageService.swift; sourceTree = "<group>"; };
+		2DF7006D2EBF576900617A3F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		2DF7FF472EB8D9D900617A3F /* CardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageView.swift; sourceTree = "<group>"; };
+		2DF7FF492EB8D9F500617A3F /* CardLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelView.swift; sourceTree = "<group>"; };
+		2DF7FF4B2EB8DADE00617A3F /* CardSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSectionView.swift; sourceTree = "<group>"; };
+		2DFC83982DFE3B1A00239146 /* PostSendMessageEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSendMessageEndpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +264,8 @@
 		2D0BE2C22988265C00175C85 /* RealSwipe */ = {
 			isa = PBXGroup;
 			children = (
+				2DF7006C2EBF576100617A3F /* SwiftData */,
+				2DF700692EBE4BDC00617A3F /* SyncMessageService */,
 				2D2717A22DFD9FA30057D66D /* Views */,
 				2D183E452DEB4EFC0040B498 /* SharedAsync */,
 				2D5D55932DDCA1A7005B4AAF /* User */,
@@ -345,6 +361,7 @@
 		2D1E7CA92A482C1F00CBAA24 /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				2D2717A92DFE08070057D66D /* ContentViewViewModel.swift */,
 				2DA66D4E2DDE157200262096 /* DisconnectAction.swift */,
 				2D0BE2C52988265C00175C85 /* ContentView.swift */,
 			);
@@ -459,6 +476,7 @@
 		2D9BC2C82A9CC69B006FCD1A /* CardView */ = {
 			isa = PBXGroup;
 			children = (
+				2DF7FF462EB8D9BA00617A3F /* Components */,
 				2D0BE3752990549600175C85 /* CardViewModel.swift */,
 				2D0BE36E2990229600175C85 /* CardView.swift */,
 			);
@@ -487,6 +505,7 @@
 		2DCEF0C12A48CDD100B20B23 /* Endpoint */ = {
 			isa = PBXGroup;
 			children = (
+				2DFC83982DFE3B1A00239146 /* PostSendMessageEndpoint.swift */,
 				2D50B5022DDBD201002FE297 /* GetMessageEndpoint.swift */,
 				2DCEF0C22A48CDDD00B20B23 /* RegisterEndpoint.swift */,
 				2DCEF0C42A49B89B00B20B23 /* UserExistsEndpoint.swift */,
@@ -621,6 +640,32 @@
 				2DCEF0CE2A4A1FCD00B20B23 /* PasswordLoggingStepViewModel.swift */,
 			);
 			path = PasswordRegister;
+			sourceTree = "<group>";
+		};
+		2DF700692EBE4BDC00617A3F /* SyncMessageService */ = {
+			isa = PBXGroup;
+			children = (
+				2DF7006A2EBE4BE500617A3F /* SyncMessageService.swift */,
+			);
+			path = SyncMessageService;
+			sourceTree = "<group>";
+		};
+		2DF7006C2EBF576100617A3F /* SwiftData */ = {
+			isa = PBXGroup;
+			children = (
+				2DF7006D2EBF576900617A3F /* UserModel.swift */,
+			);
+			path = SwiftData;
+			sourceTree = "<group>";
+		};
+		2DF7FF462EB8D9BA00617A3F /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2DF7FF4B2EB8DADE00617A3F /* CardSectionView.swift */,
+				2DF7FF492EB8D9F500617A3F /* CardLabelView.swift */,
+				2DF7FF472EB8D9D900617A3F /* CardImageView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -772,12 +817,14 @@
 				2DD484B229A9716B00D2BC89 /* TabView.swift in Sources */,
 				2D0BE2C62988265C00175C85 /* ContentView.swift in Sources */,
 				2DD484DC29AD4B0100D2BC89 /* CustomTextField.swift in Sources */,
+				2DF7FF4A2EB8D9F600617A3F /* CardLabelView.swift in Sources */,
 				2DD484D029ABEE9A00D2BC89 /* SettingsView.swift in Sources */,
 				2DCEF0D32A4A2E9000B20B23 /* LoadingViewModifier.swift in Sources */,
 				2DD484D929ACE04A00D2BC89 /* String+RealSwipe.swift in Sources */,
 				2D2717A42DFDA0F70057D66D /* CircleButtonView.swift in Sources */,
 				2DCEF0822A488A4800B20B23 /* VisualEffectView.swift in Sources */,
 				2DD484E929AD5B5500D2BC89 /* PasswordStepView.swift in Sources */,
+				2DF7006E2EBF577600617A3F /* UserModel.swift in Sources */,
 				2DCEF0C52A49B89B00B20B23 /* UserExistsEndpoint.swift in Sources */,
 				2DD484CA29ABEE2100D2BC89 /* MatchView.swift in Sources */,
 				2D50B5032DDBD20B002FE297 /* GetMessageEndpoint.swift in Sources */,
@@ -789,6 +836,9 @@
 				2D523C012DF33D9D00C66598 /* BirthdayStepViewModel.swift in Sources */,
 				2D0BE36D2990225F00175C85 /* CardContainerView.swift in Sources */,
 				2D39F98329BE689000F71B8F /* Navigable.swift in Sources */,
+				2DFC83992DFE3B1B00239146 /* PostSendMessageEndpoint.swift in Sources */,
+				2DF7006B2EBE4BE600617A3F /* SyncMessageService.swift in Sources */,
+				2DF7FF4C2EB8DADF00617A3F /* CardSectionView.swift in Sources */,
 				2D1E7CB42A482D9000CBAA24 /* SettingsViewModel.swift in Sources */,
 				2D49CFEA2DEF324B00295753 /* NameStepScreen.swift in Sources */,
 				2D49CFEB2DEF324B00295753 /* NameStepView.swift in Sources */,
@@ -810,6 +860,7 @@
 				2D0BE2F829886B7E00175C85 /* Colors.swift in Sources */,
 				2DD484BB29AA199C00D2BC89 /* TabItemPreferenceKey.swift in Sources */,
 				2D2717A62DFDA73F0057D66D /* ProfilResponse.swift in Sources */,
+				2D2717AA2DFE08080057D66D /* ContentViewViewModel.swift in Sources */,
 				2D5D55CD2DDDB952005B4AAF /* KeychainHelper.swift in Sources */,
 				2D50B4A72DDB8034002FE297 /* LogginFlowScreen.swift in Sources */,
 				2DA66D572DDE23F800262096 /* UserSession.swift in Sources */,
@@ -825,6 +876,7 @@
 				2D0BE3762990549600175C85 /* CardViewModel.swift in Sources */,
 				2D183E4B2DEC61EB0040B498 /* AsyncStreamCancellable.swift in Sources */,
 				2D0BE2EF29886A7E00175C85 /* TabBarView.swift in Sources */,
+				2DF7FF482EB8D9DB00617A3F /* CardImageView.swift in Sources */,
 				2D50B4FE2DDBC730002FE297 /* ChatViewModel.swift in Sources */,
 				2D9BC2C72A9CC536006FCD1A /* MatchViewModel.swift in Sources */,
 				2D1E7CA82A48249400CBAA24 /* ConversationViewModel.swift in Sources */,
@@ -920,7 +972,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -975,7 +1027,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1003,7 +1055,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1012,6 +1064,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = test.nlorrqin.RealSwipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = "$(SWIFT_STRICT_CONCURRENCY_DEFAULT)";
+				SWIFT_STRICT_MEMORY_SAFETY = NO;
+				SWIFT_UPCOMING_FEATURE_DISABLE_OUTWARD_ACTOR_ISOLATION = "$(SWIFT_UPCOMING_FEATURE_6_0)";
+				SWIFT_UPCOMING_FEATURE_DYNAMIC_ACTOR_ISOLATION = "$(SWIFT_UPCOMING_FEATURE_6_0)";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = NO;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1034,7 +1091,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1043,6 +1100,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = test.nlorrqin.RealSwipe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = "$(SWIFT_STRICT_CONCURRENCY_DEFAULT)";
+				SWIFT_STRICT_MEMORY_SAFETY = NO;
+				SWIFT_UPCOMING_FEATURE_DISABLE_OUTWARD_ACTOR_ISOLATION = "$(SWIFT_UPCOMING_FEATURE_6_0)";
+				SWIFT_UPCOMING_FEATURE_DYNAMIC_ACTOR_ISOLATION = "$(SWIFT_UPCOMING_FEATURE_6_0)";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = NO;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

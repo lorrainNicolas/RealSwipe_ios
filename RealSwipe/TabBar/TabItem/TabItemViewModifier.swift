@@ -19,7 +19,9 @@ struct TabItemViewModifier<TabSelectionViewModelGetter: TabSelectionViewModelGet
       TabItemContainerView {
         content.frame(maxWidth: .infinity, maxHeight: .infinity).ignoresSafeArea()
       }.isHidden(tabItem == tabSelectionViewModel.getSelectedTabItem() ? false : true)
-    }.preference(key: TabItemPreferenceKey.self, value:[tabItem])
+        .preference(key: TabItemPreferenceKey.self, value:[tabItem])
+    }
+     .allowsHitTesting(tabItem == tabSelectionViewModel.getSelectedTabItem() ? true : false)
   }
 }
 

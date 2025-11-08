@@ -6,9 +6,10 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
 protocol Tabbable: Identifiable, Hashable {
   var title: String { get }
-  var image: UIImage? { get }
+  var image: Image { get }
+  var imageFill: Image { get }
 }

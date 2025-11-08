@@ -7,12 +7,7 @@
 
 import Foundation
 
-@MainActor
-class KeychainHelper {
-  
-    static let shared = KeychainHelper()
-
-    private init() {}
+struct KeychainHelper {
 
     func save(_ key: String, data: Data) {
         let query: [String: Any] = [

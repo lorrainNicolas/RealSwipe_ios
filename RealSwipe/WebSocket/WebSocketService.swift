@@ -6,108 +6,140 @@
 //
 
 import Foundation
-
-/// Enumeration of possible errors that might occur while using ``WebSocketConnection``.
-public enum WebSocketConnectionError: Error {
-  case connectionError
-  case transportError
-  case encodingError
-  case decodingError
-  case disconnected
-  case closed
+enum WebSocketMessage {
+  case didReceive(String)
+  case isCancel
+  case unowned
 }
 
 @MainActor
-public final class WebSocketConnection {
-  private let webSocketTask: URLSessionWebSocketTask
-  private let session = URLSession(configuration: .default)
-  
-  init(url: URL) {
-    self.webSocketTask = session.webSocketTask(with: url)
-    webSocketTask.resume()
+final class WebSocketSession: NSObject, Identifiable  {
+  enum Failure: Error {
+    case failure
   }
   
-  deinit {
-    webSocketTask.cancel(with: .goingAway, reason: nil)
+  let stream: AsyncThrowingStream<WebSocketMessage, any Error>
+  private let streamContinuation: AsyncThrowingStream<WebSocketMessage, Error>.Continuation
+  
+  private lazy var session: URLSession = {
+    return URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
+  }()
+  
+  private lazy var urlSessionWebSocketTask: URLSessionWebSocketTask = {
+    return session.webSocketTask(with: URL.init(string: "ws://realswipe.onrender.com/ws?token=\(token)")!)
+  }()
+  
+  private let token: String
+  private var task: Task<(), any Error>?
+  private(set) var isCancelled: Bool = false {
+    didSet {
+      streamContinuation.yield(.isCancel)
+    }
   }
   
-  private func receiveSingleMessage() async throws -> String {
-    switch try await webSocketTask.receive() {
-    case let .data(messageData):
-      return String.init(data: messageData, encoding: .utf8) ?? ""
-      
-      
-    case let .string(text):
-      return text
-      
-    @unknown default:
-      webSocketTask.cancel(with: .unsupportedData, reason: nil)
-      throw WebSocketConnectionError.decodingError
+  init(from token: String) {
+    let makerStream = AsyncThrowingStream<WebSocketMessage, Error>.makeStream()
+    stream = makerStream.stream
+    streamContinuation = makerStream.continuation
+    self.token = token
+    super.init()
+  }
+
+  func cancel() {
+    isCancelled = true
+    
+    streamContinuation.finish(throwing: Failure.failure)
+    task?.cancel()
+    task = nil
+    urlSessionWebSocketTask.cancel()
+  }
+  
+  func resume() {
+    let urlSessionWebSocketTask = urlSessionWebSocketTask
+    task = Task { 
+      do {
+        for try await message in AsyncThrowingStream<WebSocketMessage, Error>(unfolding: {
+        
+          let message: WebSocketMessage
+          switch try await urlSessionWebSocketTask.receive() {
+          
+          case let .data(messageData):
+            message = WebSocketMessage.didReceive(.init(data: messageData, encoding: .utf8) ?? "")
+          case let .string(text):
+            message = WebSocketMessage.didReceive(text)
+          @unknown default:
+            message = .unowned
+          }
+          
+          return Task.isCancelled ? nil : message
+        }) {
+          streamContinuation.yield(message)
+        }
+      } catch {
+       cancel()
+      }
+    }
+    
+    urlSessionWebSocketTask.resume()
+  }
+}
+
+extension WebSocketSession: URLSessionWebSocketDelegate {
+  
+  nonisolated func urlSession(_ session: URLSession,
+                              webSocketTask: URLSessionWebSocketTask,
+                              didOpenWithProtocol protocol: String?) {
+  }
+  
+  nonisolated func urlSession(_ session: URLSession, webSocketTask: URLSessionWebSocketTask, didCloseWith closeCode: URLSessionWebSocketTask.CloseCode, reason: Data?) {
+    Task {
+      await cancel()
     }
   }
 }
 
-// MARK: Public Interface
-
-extension WebSocketConnection {
-  //    func send(_ message: Outgoing) async throws {
-  //        guard let messageData = try? encoder.encode(message) else {
-  //            throw WebSocketConnectionError.encodingError
-  //        }
-  //
-  //        do {
-  //            try await webSocketTask.send(.data(messageData))
-  //        } catch {
-  //            switch webSocketTask.closeCode {
-  //                case .invalid:
-  //                    throw WebSocketConnectionError.connectionError
-  //
-  //                case .goingAway:
-  //                    throw WebSocketConnectionError.disconnected
-  //
-  //                case .normalClosure:
-  //                    throw WebSocketConnectionError.closed
-  //
-  //                default:
-  //                    throw WebSocketConnectionError.transportError
-  //            }
-  //        }
-  //    }
+@MainActor
+final class WebSocketService {
   
-  func receiveOnce() async throws -> String {
-    do {
-      return try await receiveSingleMessage()
-    } catch let error as WebSocketConnectionError {
-      throw error
-    } catch {
-      switch webSocketTask.closeCode {
-      case .invalid:
-        throw WebSocketConnectionError.connectionError
-        
-      case .goingAway:
-        throw WebSocketConnectionError.disconnected
-        
-      case .normalClosure:
-        throw WebSocketConnectionError.closed
-        
-      default:
-        throw WebSocketConnectionError.transportError
+  let stream: AsyncStream<WebSocketMessage>
+  private let streamContinuation: AsyncStream<WebSocketMessage>.Continuation
+  private var webSocketSession: WebSocketSession?
+  private var didReseivedWebSocketSessionTask: Task<Void, Never>?
+  
+  init() {
+    let makerStream = AsyncStream<WebSocketMessage>.makeStream()
+    stream = makerStream.stream
+    streamContinuation = makerStream.continuation
+  }
+  
+  func launch(token: String) {
+    webSocketSession?.cancel()
+    didReseivedWebSocketSessionTask?.cancel()
+    
+    let webSocketSession = WebSocketSession(from: token)
+    self.webSocketSession = webSocketSession
+    webSocketSession.resume()
+    
+    didReseivedWebSocketSessionTask = Task {
+      let webSocketSession = webSocketSession
+      guard !Task.isCancelled else { return }
+   
+      do {
+        for try await message in webSocketSession.stream {
+          guard !Task.isCancelled else { return }
+          streamContinuation.yield(message)
+        }
+      } catch {
+        print("Error")
       }
     }
   }
   
-  func receive() -> AsyncThrowingStream<String, Error> {
-    AsyncThrowingStream { @MainActor [weak self] in
-      guard let self else {
-        return nil
-      }
-      
-      let message = try await self.receiveOnce()
-      return Task.isCancelled ? nil : message
-    }
-  }
-  
-  func close() {
-    webSocketTask.cancel(with: .normalClosure, reason: nil)
+  func stop() {
+    webSocketSession?.cancel()
+    webSocketSession = nil
+    
+    didReseivedWebSocketSessionTask?.cancel()
+    didReseivedWebSocketSessionTask = nil
   }
 }

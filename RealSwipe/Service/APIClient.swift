@@ -35,7 +35,6 @@ final class APIClient: APIClientProtocol  {
   }
   
   private let baseURL: String = "https://realswipe.onrender.com"
-  //"http://0.0.0.0:8080/"
   
   func sendRequest<T: Endpoint>(to endpoint: T) async throws -> T.Output {
     guard let url = URL(string: baseURL)?.appendingPathComponent(endpoint.path) else { throw Error.invalidUrl }
@@ -49,7 +48,6 @@ final class APIClient: APIClientProtocol  {
    
     do {
       let data = try await URLSession.shared.data(for: request)
-      print(String(data: data.0, encoding: .utf8))
       guard let httpResponse = data.1 as? HTTPURLResponse else { throw Error.invalidResponse }
       guard (200...299).contains(httpResponse.statusCode) else { throw Error.requestFailed }
       return try JSONDecoder().decode(T.Output.self, from: data.0)

@@ -23,17 +23,18 @@ struct TabContentView: View {
           ConversationView(viewModel: ConversationViewModel(userSession: viewModel.userSession,
                                                             api: APIClient()))
             .tabItem(for: TabBarIdentifer.message)
-
+          
           SettingsView(viewModel: SettingsViewModel(userSession: viewModel.userSession))
             .tabItem(for: TabBarIdentifer.settings)
-          
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
   
         .navigationDestination(for: TabContentFlow.Screen.self) { screen in
           switch screen {
-          case .message:
-            ChatView(viewModel: ChatViewModel())
+          case .message(let conversationId):
+            ChatView(viewModel: ChatViewModel(userSession: viewModel.userSession, conversation: conversationId))
+              .id(conversationId) // USE unique UUID
+            
           }
         }
       }

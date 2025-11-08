@@ -39,7 +39,6 @@ private extension ConversationViewModel {
         conversations = value.map {
           .init(conversationId: $0.id, name: $0.profile.firstName)
         }
-        print("after")
         print(value)
       }
     }

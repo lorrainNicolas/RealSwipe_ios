@@ -34,7 +34,7 @@ class AuthentificationService {
   var isAuthenticated: Bool { _userSessionPublisher.value != nil }
   
   init(apiClient: APIClientProtocol = APIClient(),
-       keychainHelper: KeychainHelper = .shared) {
+       keychainHelper: KeychainHelper = KeychainHelper()) {
     
     self.keychainHelper = keychainHelper
     self.apiClient = apiClient

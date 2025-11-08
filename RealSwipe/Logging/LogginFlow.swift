@@ -14,7 +14,6 @@ class LogginFlow: ObservableObject {
   
   enum Screen: Hashable, LogginProgressionProtcol {
     case passwordLogging(PasswordLoggingStepViewModel)
-    
     case passwordRegister(PasswordRegisterStepViewModel)
     case name(NameStepViewModel)
     case gender(GenderStepViewModel)
