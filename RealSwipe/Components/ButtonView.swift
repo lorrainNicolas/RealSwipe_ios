@@ -33,8 +33,6 @@ struct ButtonView: View {
           .foregroundColor(.white)
           .padding(.horizontal, 12)
           .frame(maxWidth: .infinity, alignment: .center)
-      }.onTapGesture {
-        tapGestureHandler()
       }
     }
   }

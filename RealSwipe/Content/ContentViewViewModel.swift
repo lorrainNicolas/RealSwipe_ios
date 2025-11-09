@@ -24,8 +24,8 @@ class ContentViewViewModel: ObservableObject {
     let disconnectPublisher = PassthroughSubject<Void, Never>()
     disconnectAction = DisconnectAction(disconnectPublisher: disconnectPublisher)
     
-    authentificationSession.userSessionPublisher.sink {[weak self] in
-      self?.userSession = $0
+    authentificationSession.userSessionDataPublisher.sink {[weak self] in
+      self?.userSession = $0.usesrSession
     }.store(in: &bag)
     
     disconnectPublisher.sink {[ weak self] in

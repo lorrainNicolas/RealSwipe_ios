@@ -1,5 +1,5 @@
 //
-//  UserModel.swift
+//  MessageModel.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 08/11/2025.
@@ -9,20 +9,22 @@ import SwiftData
 import Foundation
 
 @Model
-class UserModel {
-  
+class MessageModel {
     @Attribute(.unique) var id: UUID
-    var username: String
-  
-    @Relationship(deleteRule: .cascade)
+    var text: String
+    var sentAt: Date
+    var isCurrentUser: Bool
     var conversation: ConversationModel?
 
     init(id: UUID,
-         username: String,
+         text: String,
+         sentAt: Date,
+         isCurrentUser: Bool,
          conversation: ConversationModel? = nil) {
         self.id = id
-        self.username = username
+        self.text = text
+        self.sentAt = sentAt
+        self.isCurrentUser = isCurrentUser
         self.conversation = conversation
     }
 }
-

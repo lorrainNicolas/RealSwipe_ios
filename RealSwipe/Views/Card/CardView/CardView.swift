@@ -58,13 +58,13 @@ struct CardView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                   
                   HStack() {
-                    CircleButtonView(image: Image(systemName: "cross")).rotationEffect(.degrees(45)).onTapGesture {
+                    CircleButtonView(image: Image(systemName: "cross")) {
                       cardViewActionHandler.action.send((.dislike))
-                    }
+                    }.rotationEffect(.degrees(45))
                     
                     Rectangle().fill(.clear).frame(width: 50)
                     
-                    CircleButtonView(image: Image(systemName: "heart")).onTapGesture {
+                    CircleButtonView(image: Image(systemName: "heart")) {
                       cardViewActionHandler.action.send((.like))
                     }
                   }.padding()
@@ -82,7 +82,7 @@ struct CardView: View {
 
       ZStack {
         if showLikeOverlay {
-          CircleButtonView(size: 25, image: Image(systemName: "heart")).onTapGesture {
+          CircleButtonView(size: 25, image: Image(systemName: "heart")) {
             cardViewActionHandler.action.send((.like))
           }
           .padding().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)

@@ -270,8 +270,8 @@
             filePath = "RealSwipe/User/AuthentificationSession.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "init(apiClient:keychainHelper:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -321,22 +321,6 @@
             startingLineNumber = "56"
             endingLineNumber = "56"
             landmarkName = "sendRequest(to:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E649C243-92FA-4F33-90AF-319651DCF1E8"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RealSwipe/Views/Conversation/ConversationViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "refreash()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -402,36 +386,6 @@
             endingLineNumber = "66"
             landmarkName = "resume()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "324EDBAF-509A-4D08-92AE-109A19607BAB - 479ae1e8370eb4c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async throws -&gt; Swift.Optional&lt;RealSwipe.WebSocketMessage&gt; in closure #1 () async -&gt; () in RealSwipe.WebSocketSession.resume() -&gt; ()"
-                  moduleName = "RealSwipe.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/utilisateur/Desktop/RealSwipe_ios/RealSwipe/WebSocket/WebSocketService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66">
-               </Location>
-               <Location
-                  uuid = "324EDBAF-509A-4D08-92AE-109A19607BAB - 479ae1e8370eb4c9"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(3) suspend resume partial function for closure #1 @Sendable () async throws -&gt; Swift.Optional&lt;RealSwipe.WebSocketMessage&gt; in closure #1 () async -&gt; () in RealSwipe.WebSocketSession.resume() -&gt; ()"
-                  moduleName = "RealSwipe.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/utilisateur/Desktop/RealSwipe_ios/RealSwipe/WebSocket/WebSocketService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -512,36 +466,54 @@
             endingLineNumber = "49"
             landmarkName = "cancel()"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "323D7AAC-8BAD-4D35-89F8-FE591D40A98B - c5aeb291e8cfc78"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RealSwipe.WebSocketSession.cancel() -&gt; ()"
-                  moduleName = "RealSwipe.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/utilisateur/Desktop/RealSwipe_ios/RealSwipe/WebSocket/WebSocketService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49">
-               </Location>
-               <Location
-                  uuid = "323D7AAC-8BAD-4D35-89F8-FE591D40A98B - c5aeb291e8cfc78"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RealSwipe.WebSocketSession.cancel() -&gt; ()"
-                  moduleName = "RealSwipe.debug.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/utilisateur/Desktop/RealSwipe_ios/RealSwipe/WebSocket/WebSocketService.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "49"
-                  endingLineNumber = "49">
-               </Location>
-            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D7C9D2A-DEB6-45D6-8F66-00D044352BE9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RealSwipe/SyncMessageService/SyncMessageService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "launch()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "395F6B8E-CFD9-4710-A7B1-7EED4E903324"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RealSwipe/SwiftData/ChatDataBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "88"
+            endingLineNumber = "88"
+            landmarkName = "insertConversation(id:createdAt:userId:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "33DA98AA-B116-41B7-8B68-8531BE223B82"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RealSwipe/SwiftData/ChatDataBase.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "insertConversation(id:createdAt:userId:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

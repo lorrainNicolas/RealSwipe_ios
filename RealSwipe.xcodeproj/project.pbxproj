@@ -94,6 +94,11 @@
 		2DD484EB29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD484EA29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift */; };
 		2DF7006B2EBE4BE600617A3F /* SyncMessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7006A2EBE4BE500617A3F /* SyncMessageService.swift */; };
 		2DF7006E2EBF577600617A3F /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7006D2EBF576900617A3F /* UserModel.swift */; };
+		2DF700702EBF5C5A00617A3F /* ConversationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7006F2EBF5C5800617A3F /* ConversationModel.swift */; };
+		2DF700722EBF5C6F00617A3F /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF700712EBF5C6D00617A3F /* MessageModel.swift */; };
+		2DF700742EBF5DFA00617A3F /* ChatDataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF700732EBF5DF800617A3F /* ChatDataBase.swift */; };
+		2DF700772EBF5F8500617A3F /* UserDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF700762EBF5F8200617A3F /* UserDTO.swift */; };
+		2DF700832EBF822D00617A3F /* ConversationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF700822EBF822800617A3F /* ConversationDTO.swift */; };
 		2DF7FF482EB8D9DB00617A3F /* CardImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF472EB8D9D900617A3F /* CardImageView.swift */; };
 		2DF7FF4A2EB8D9F600617A3F /* CardLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF492EB8D9F500617A3F /* CardLabelView.swift */; };
 		2DF7FF4C2EB8DADF00617A3F /* CardSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF7FF4B2EB8DADE00617A3F /* CardSectionView.swift */; };
@@ -208,6 +213,11 @@
 		2DD484EA29AD5BBA00D2BC89 /* PasswordRegisterStepViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordRegisterStepViewModel.swift; sourceTree = "<group>"; };
 		2DF7006A2EBE4BE500617A3F /* SyncMessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMessageService.swift; sourceTree = "<group>"; };
 		2DF7006D2EBF576900617A3F /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		2DF7006F2EBF5C5800617A3F /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
+		2DF700712EBF5C6D00617A3F /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		2DF700732EBF5DF800617A3F /* ChatDataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataBase.swift; sourceTree = "<group>"; };
+		2DF700762EBF5F8200617A3F /* UserDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDTO.swift; sourceTree = "<group>"; };
+		2DF700822EBF822800617A3F /* ConversationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDTO.swift; sourceTree = "<group>"; };
 		2DF7FF472EB8D9D900617A3F /* CardImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageView.swift; sourceTree = "<group>"; };
 		2DF7FF492EB8D9F500617A3F /* CardLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLabelView.swift; sourceTree = "<group>"; };
 		2DF7FF4B2EB8DADE00617A3F /* CardSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSectionView.swift; sourceTree = "<group>"; };
@@ -653,9 +663,22 @@
 		2DF7006C2EBF576100617A3F /* SwiftData */ = {
 			isa = PBXGroup;
 			children = (
+				2DF700752EBF5F1400617A3F /* DTO */,
+				2DF700732EBF5DF800617A3F /* ChatDataBase.swift */,
+				2DF700712EBF5C6D00617A3F /* MessageModel.swift */,
+				2DF7006F2EBF5C5800617A3F /* ConversationModel.swift */,
 				2DF7006D2EBF576900617A3F /* UserModel.swift */,
 			);
 			path = SwiftData;
+			sourceTree = "<group>";
+		};
+		2DF700752EBF5F1400617A3F /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				2DF700822EBF822800617A3F /* ConversationDTO.swift */,
+				2DF700762EBF5F8200617A3F /* UserDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		2DF7FF462EB8D9BA00617A3F /* Components */ = {
@@ -816,6 +839,7 @@
 				2D1E7CB22A482CAD00CBAA24 /* TabContentFlow.swift in Sources */,
 				2DD484B229A9716B00D2BC89 /* TabView.swift in Sources */,
 				2D0BE2C62988265C00175C85 /* ContentView.swift in Sources */,
+				2DF700772EBF5F8500617A3F /* UserDTO.swift in Sources */,
 				2DD484DC29AD4B0100D2BC89 /* CustomTextField.swift in Sources */,
 				2DF7FF4A2EB8D9F600617A3F /* CardLabelView.swift in Sources */,
 				2DD484D029ABEE9A00D2BC89 /* SettingsView.swift in Sources */,
@@ -843,6 +867,7 @@
 				2D49CFEA2DEF324B00295753 /* NameStepScreen.swift in Sources */,
 				2D49CFEB2DEF324B00295753 /* NameStepView.swift in Sources */,
 				2D49CFEC2DEF324B00295753 /* NameStepViewModel.swift in Sources */,
+				2DF700702EBF5C5A00617A3F /* ConversationModel.swift in Sources */,
 				2DD484CD29ABEE7B00D2BC89 /* ConversationView.swift in Sources */,
 				2DCEF0C82A49D3E200B20B23 /* InputProtocol.swift in Sources */,
 				2DCEF0CA2A49D41100B20B23 /* POST.swift in Sources */,
@@ -873,6 +898,7 @@
 				2DCEF0CF2A4A1FCD00B20B23 /* PasswordLoggingStepViewModel.swift in Sources */,
 				2D523C122DF5CB2200C66598 /* Date+RealSwipe.swift in Sources */,
 				2D50B5012DDBC95E002FE297 /* WebSocketService.swift in Sources */,
+				2DF700742EBF5DFA00617A3F /* ChatDataBase.swift in Sources */,
 				2D0BE3762990549600175C85 /* CardViewModel.swift in Sources */,
 				2D183E4B2DEC61EB0040B498 /* AsyncStreamCancellable.swift in Sources */,
 				2D0BE2EF29886A7E00175C85 /* TabBarView.swift in Sources */,
@@ -882,10 +908,12 @@
 				2D1E7CA82A48249400CBAA24 /* ConversationViewModel.swift in Sources */,
 				2D50B46F2DDB76E5002FE297 /* UserResponse.swift in Sources */,
 				2DA66D4F2DDE157600262096 /* DisconnectAction.swift in Sources */,
+				2DF700832EBF822D00617A3F /* ConversationDTO.swift in Sources */,
 				2D0BE2F329886AEC00175C85 /* TabBarIdentifer.swift in Sources */,
 				2D39F98829BE791600F71B8F /* GenderStepView.swift in Sources */,
 				2D9BC2CA2A9CC6B8006FCD1A /* CardContainerStatus.swift in Sources */,
 				2D0BE2C42988265C00175C85 /* RealSwipeApp.swift in Sources */,
+				2DF700722EBF5C6F00617A3F /* MessageModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

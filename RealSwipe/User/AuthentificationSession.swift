@@ -22,16 +22,17 @@ class AuthentificationService {
   private let apiClient: APIClientProtocol
   private var bag = Set<AnyCancellable>()
   
-  private var _userSessionPublisher = CurrentValueSubject<UserSession?, Never>(nil)
-  var userSessionPublisher: AnyPublisher<UserSession?, Never> {
-    _userSessionPublisher.eraseToAnyPublisher()
+
+  private var _userSessionDataPublisher: CurrentValueSubject<(usesrSession: UserSession?, didlaunched: Bool), Never>
+  var userSessionDataPublisher: AnyPublisher<(usesrSession: UserSession?, didlaunched: Bool), Never> {
+    _userSessionDataPublisher.eraseToAnyPublisher()
   }
   
   var userSession: UserSession? {
-    _userSessionPublisher.value
+    _userSessionDataPublisher.value.usesrSession
   }
   
-  var isAuthenticated: Bool { _userSessionPublisher.value != nil }
+  var isAuthenticated: Bool { _userSessionDataPublisher.value.usesrSession != nil }
   
   init(apiClient: APIClientProtocol = APIClient(),
        keychainHelper: KeychainHelper = KeychainHelper()) {
@@ -39,25 +40,30 @@ class AuthentificationService {
     self.keychainHelper = keychainHelper
     self.apiClient = apiClient
     
-    guard let authTokenKeyData = keychainHelper.read(authTokenKey) else { return }
+    guard let authTokenKeyData = keychainHelper.read(authTokenKey) else {
+      _userSessionDataPublisher = .init((usesrSession: nil, didlaunched: true))
+      return
+    }
     
     guard let authTokenKey = String(data: authTokenKeyData, encoding: .utf8) else {
       keychainHelper.delete(authTokenKey)
+      _userSessionDataPublisher = .init((usesrSession: nil, didlaunched: true))
       return
     }
     
     guard let userSession = UserSession.loadFromCache(token: authTokenKey) else {
       keychainHelper.delete(authTokenKey)
+      _userSessionDataPublisher =  .init((usesrSession: nil, didlaunched: true))
       return
     }
     
-    _userSessionPublisher.send(userSession)
+    _userSessionDataPublisher = .init((usesrSession: userSession, didlaunched: true))
   }
   
   func disconnect() {
     keychainHelper.delete(authTokenKey)
     userSession?.reset()
-    _userSessionPublisher.send(nil)
+    _userSessionDataPublisher.send((usesrSession: nil, didlaunched: false))
   }
   
   func register(firstName: String,
@@ -77,7 +83,7 @@ class AuthentificationService {
                                         user: User(userId: logginData.user.id,
                                                    firstName: logginData.user.firstName,
                                                    birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
-    _userSessionPublisher.send(userSession)
+    _userSessionDataPublisher.send((usesrSession: userSession, didlaunched: false))
     
   }
   
@@ -90,6 +96,6 @@ class AuthentificationService {
                                         user: User(userId: logginData.user.id,
                                                    firstName: logginData.user.firstName,
                                                    birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
-    _userSessionPublisher.send(userSession)
+    _userSessionDataPublisher.send((usesrSession: userSession, didlaunched: false))
   }
 }

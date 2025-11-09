@@ -28,10 +28,15 @@ struct ConversationView: View {
           MessageView(userName: conversation.name, message: nil)
             .contentShape(Rectangle())
             .onTapGesture {
-              tabContentFlow.pushMessage(conversationId: conversation.conversationId)
+              tabContentFlow.pushMessage(conversationId: conversation.id)
           }.listRowBackground(Colors.contentBackground)
         }
+       
       }.scrollContentBackground(.hidden)
+        .refreshable { await viewModel.refreshable() }
+        .safeAreaInset(edge: .bottom) {
+            Color.clear.frame(height: 100)
+        }
     }
   }
 }

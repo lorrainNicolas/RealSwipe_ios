@@ -11,7 +11,7 @@ import SwiftUI
 struct SettingsView: View {
   @StateObject var viewModel: SettingsViewModel
   @Environment(\.disconnectAction) var disconnectAction
-  
+  @State var logoutConfirmation: Bool = false
   private var infos: [AboutMeView.Info] {
     var infos = [AboutMeView.Info.sexe("Homme")]
     if let age = viewModel.age { infos.append(.age(age)) }
@@ -20,28 +20,39 @@ struct SettingsView: View {
   
   var body: some View {
     ScrollView {
-
+      
       VStack(spacing: 12) {
         HeaderView(name: viewModel.name)
         
         DescriptionView(description: $viewModel.description)
-   
+        
         AboutMeView(information: infos)
         
         ControlView(showAge: $viewModel.showAge,
                     showDistance: $viewModel.showDistance)
         
         ButtonView(title: "Log Out") {
-          disconnectAction()
+          logoutConfirmation = true
+          
         }
         
       }.padding()
       
       Rectangle().fill(.clear).frame(height: 60)
       
-    }
-     .onTapGesture {
-       UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }.alert("Êtes-vous sûr de vouloir vous déconnecter ?",
+            isPresented: $logoutConfirmation, actions: {
+      Button {
+        disconnectAction()
+      } label: {
+        Text("Log Out")
+      }
+      Button("Cancel", role: .cancel) {
+      }
+    })
+    
+    .onTapGesture {
+      UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
   }
 }
@@ -82,7 +93,7 @@ private struct DescriptionView: View {
         }.multilineTextAlignment(.leading)
           .foregroundStyle(Colors.textInBox)
           .lineLimit(nil)
-          
+        
         Text("\(maxCharacters - description.count)")
           .foregroundColor(.gray)
           .padding(.trailing, 10)
