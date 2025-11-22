@@ -20,15 +20,21 @@ class PasswordRegisterStepViewModel: PasswordStepScreenViewModel, Navigable {
   
   private let registerData: RegisterData
   
+  @Published var errorMessage: String?
+  
   var title: String { "Veuillez saisir un mot de passe" }
-  var subtitle: String? { "9 caractères minimum." }
+  var subtitle: String? { "8 caractères minimum." }
   var isLoading: Bool { false }
   
   init(registerData: RegisterData) {
     self.registerData = registerData
   }
   
-  func onTapButton(_ password: String) {
+  func didValid(_ password: String) {
+    guard password.isValidPassword() else {
+      errorMessage = "Invalid Password"
+      return
+    }
     _logginFlowPublish.send(.name(.init(registerData: .init(email: registerData.email, password: password))))
   }
 }

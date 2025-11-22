@@ -11,18 +11,21 @@ import Foundation
 @Model
 class UserModel {
   
-    @Attribute(.unique) var id: UUID
-    var username: String
+  @Attribute(.unique)
+  var id: UUID = UUID()
   
-    @Relationship(deleteRule: .cascade)
-    var conversation: ConversationModel?
-
-    init(id: UUID,
-         username: String,
-         conversation: ConversationModel? = nil) {
-        self.id = id
-        self.username = username
-        self.conversation = conversation
-    }
+  var backendId: UUID
+  var username: String
+  
+  @Relationship(deleteRule: .cascade)
+  var conversation: ConversationModel?
+  
+  init(backendId: UUID,
+       username: String,
+       conversation: ConversationModel? = nil) {
+    self.backendId = backendId
+    self.username = username
+    self.conversation = conversation
+  }
 }
 

@@ -1,5 +1,5 @@
 //
-//  MatchView.swift
+//  SwipeView.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 26/02/2023.
@@ -8,8 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct MatchView: View {
-  @StateObject var viewModel: MatchViewModel
+struct SwipeView: View {
+  @StateObject var viewModel: SwipeViewModel
   
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {

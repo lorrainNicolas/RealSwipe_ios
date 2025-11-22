@@ -24,14 +24,14 @@ class PasswordLoggingStepViewModel: PasswordStepScreenViewModel, Navigable {
   var title: String { "Veuillez Entrer votre mot de passe" }
   var subtitle: String? { nil }
   @Published var isLoading: Bool = false
-  
+  @Published var errorMessage: String?
   init(registerData: RegisterData,
        authentificationService: AuthentificationService = .shared) {
     self.registerData = registerData
     self.authentificationService = authentificationService
   }
   
-  func onTapButton(_ password: String) {
+  func didValid(_ password: String) {
     guard isLoading == false else { return }
     isLoading = true
     let email = registerData.email

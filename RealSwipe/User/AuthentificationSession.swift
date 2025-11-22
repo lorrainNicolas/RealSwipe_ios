@@ -53,7 +53,7 @@ class AuthentificationService {
     
     guard let userSession = UserSession.loadFromCache(token: authTokenKey) else {
       keychainHelper.delete(authTokenKey)
-      _userSessionDataPublisher =  .init((usesrSession: nil, didlaunched: true))
+      _userSessionDataPublisher = .init((usesrSession: nil, didlaunched: true))
       return
     }
     
@@ -99,3 +99,4 @@ class AuthentificationService {
     _userSessionDataPublisher.send((usesrSession: userSession, didlaunched: false))
   }
 }
+

@@ -1,5 +1,5 @@
 //
-//  CardImageView.swift
+//  ProfileImageView.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 03/11/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardImageView: View {
+struct ProfileImageView: View {
   let size: CGSize
   let image: Image?
   let text: String

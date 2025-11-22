@@ -13,25 +13,16 @@ struct PostSendMessageEndpoint: Endpoint, TokenHandler {
     let message: String
   }
   
-  
-  struct OutputData: Decodable {
-    let id: UUID
-    
-    enum CodingKeys : String, CodingKey {
-        case id = "id"
-    }
-  }
-  
-  typealias Output = GetConversationEndpoint.OutputData
+  typealias Output = MessageResponse
   
   let input: POST<InputData>
   let token: String
   let path: String
   
-  init(data: InputData, conversation: UUID, token: String) {
+  init(data: InputData, conversationId: UUID, token: String) {
     self.input = POST<InputData>(data: data)
     self.token = token
-    self.path = "conversation/\(conversation)/messages"
+    self.path = "conversation/\(conversationId)/messages"
   }
 }
 

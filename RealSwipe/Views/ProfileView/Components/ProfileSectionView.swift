@@ -1,5 +1,5 @@
 //
-//  CardSectionView.swift
+//  ProfileSectionView.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 03/11/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardSectionView<Content: View>: View {
+struct ProfileSectionView<Content: View>: View {
   let title: String
   @ViewBuilder var content: Content
   var body: some View {

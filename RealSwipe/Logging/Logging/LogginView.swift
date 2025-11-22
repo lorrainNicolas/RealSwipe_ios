@@ -30,9 +30,18 @@ struct LogginView<ViewModel: LogginViewModelProtocol>: View {
           .ignoresSafeArea()
 
         VStack(spacing: 40) {
-          Text("BIENVENUE")
-            .font(.custom("Poppins Bold", size: 60))
-            .foregroundStyle(Colors.text)
+          
+          ZStack {
+            Text("BIENVENUE")
+              .font(.custom("Poppins Bold", size: 60))
+              .foregroundStyle(Colors.text)
+            
+            LinearGradient(colors: [Color.clear,
+                                    Color.black.opacity(0.7)],
+                           startPoint: UnitPoint(x: 0.5, y: 0.3),
+                           endPoint: .bottom)
+          }.fixedSize()
+        
           
           Text("Inscris toi gratuitement ou connecte-toi")
             .multilineTextAlignment(.center)

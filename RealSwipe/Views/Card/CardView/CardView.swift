@@ -20,65 +20,29 @@ struct CardView: View {
   
   var body: some View {
     ZStack {
-      GeometryReader { geo in
-        ScrollView {
-          VStack() {
-            CardImageView(size: .init(width: geo.size.width, height: geo.size.height * 3 / 4),
-                          image: viewModel.image,
-                          text: viewModel.name)
-            .addBorder(.clear, width: 0, cornerRadius: 14)
+      ProfileView(viewModel: viewModel.profileViewModel) {
+        VStack(spacing: 8) {
+          Text("Dis-nous si ce profil te plaît 👀:")
+            .font(.custom("Poppins Bold", size: 18))
+            .frame(maxWidth: .infinity, alignment: .center)
+          
+          HStack() {
+            CircleButtonView(image: Image(systemName: "cross")) {
+              cardViewActionHandler.action.send((.dislike))
+            }.rotationEffect(.degrees(45))
             
-            ZStack {
-              VStack(alignment: .leading, spacing:  15) {
-                
-                CardSectionView(title: "Ma Localisation:") {
-                  HStack {
-                    Image(systemName: "location")
-                    Text("Paris")
-                      .frame(maxWidth: .infinity, alignment: .leading)
-                  }
-                }
-                
-                CardSectionView(title: "À propose de moi:") {
-                  LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], alignment: .leading, spacing: 16) {
-                    CardLabelView(image: Image(systemName: "music.microphone.circle"), text: "Stand-up")
-                    CardLabelView(image: Image(systemName: "bicycle"), text: "Velo")
-                    CardLabelView(image: Image(systemName: "carrot"), text: "Nutrition")
-                  }
-                }
-  
-                CardSectionView(title: "Description:") {
-                  Text("Hello, voici une description fun")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-
-                VStack(spacing: 8) {
-                  Text("Dis-nous si ce profil te plaît 👀:")
-                    .font(.custom("Poppins Bold", size: 18))
-                    .frame(maxWidth: .infinity, alignment: .center)
-                  
-                  HStack() {
-                    CircleButtonView(image: Image(systemName: "cross")) {
-                      cardViewActionHandler.action.send((.dislike))
-                    }.rotationEffect(.degrees(45))
-                    
-                    Rectangle().fill(.clear).frame(width: 50)
-                    
-                    CircleButtonView(image: Image(systemName: "heart")) {
-                      cardViewActionHandler.action.send((.like))
-                    }
-                  }.padding()
-                    .frame(maxWidth: .infinity, alignment: .center)
-                  
-                }.onScrollVisibilityChange(threshold: 0.1) { value in
-                  showLikeOverlay = !value
-                }
-              }.padding(.top, 10)
-            }.padding()
-          }.addBorder(.clear, width: 0, cornerRadius: 24)
-        }.scrollIndicators(.hidden)
-        
-      }.background(.regularMaterial)
+            Rectangle().fill(.clear).frame(width: 50)
+            
+            CircleButtonView(image: Image(systemName: "heart")) {
+              cardViewActionHandler.action.send((.like))
+            }
+          }.padding()
+            .frame(maxWidth: .infinity, alignment: .center)
+          
+        }.onScrollVisibilityChange(threshold: 0.1) { value in
+          showLikeOverlay = !value
+        }
+      }
 
       ZStack {
         if showLikeOverlay {
@@ -89,14 +53,11 @@ struct CardView: View {
         }
       }.animation(.linear, value: showLikeOverlay)
     }
+    .addBorder(.clear, width: 0, cornerRadius: 24)
     .overlay {
       CardOverlayView()
     }
     .disabled(cardViewIsDragging)
-    .addBorder(.clear, width: 0, cornerRadius: 24)
-    .task {
-      await viewModel.task()
-    }
   }
 }
 

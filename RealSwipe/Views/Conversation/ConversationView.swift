@@ -26,12 +26,12 @@ struct ConversationView: View {
         ForEach(viewModel.conversations) { conversation in
           
           MessageView(userName: conversation.name, message: nil)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .onTapGesture {
-              tabContentFlow.pushMessage(conversationId: conversation.id)
+              tabContentFlow.pushMessage(conversationId: conversation.id, conversationBackendId: conversation.conversationBackendId, user: conversation.name)
           }.listRowBackground(Colors.contentBackground)
         }
-       
       }.scrollContentBackground(.hidden)
         .refreshable { await viewModel.refreshable() }
         .safeAreaInset(edge: .bottom) {

@@ -5,127 +5,172 @@
 //  Created by Utilisateur on 07/11/2025.
 //
 
- import Combine
 import Foundation
+import UIKit
 
 
 extension Notification.Name {
   static let syncMessageServiceDidUpdate = Notification.Name("SyncMessageService_didUpdate")
+  static let didReceiveMessage = Notification.Name("SyncMessageService_didReceiveMessage")
 }
 
-@MainActor
-final class SyncMessageService: Sendable {
+actor SyncMessageService: Sendable {
+  
+  enum TaskKey: Hashable {
+    case syncAllConversations
+    case syncConversation(conversationId: UUID)
+  }
+  
+  private var pendingTasks: [TaskKey: Task<Void, Never>] = [:]
+  
+  struct UserSession {
+    let userId: UUID
+    let token: String
+  }
+  
   enum NotificationState {
     case didSyncConversation
   }
   
-  private let webSocketService: WebSocketService
-  private let authentificationSession: AuthentificationService
+  private var webSocketService: WebSocketService?
   private let api: APIClient
   private let chatDataBase: ChatDataBase
-  
-  let didReceivedMessage: PassthroughSubject<WebSocketMessageData, Never> = .init()
+  private var userSession: UserSession?
+  private var isCleaningData: Bool = false
+  private var webSocketTask: Task<Void, Never>?
   
   static let shared = SyncMessageService()
   
-  init(webSocketService: WebSocketService = .init(),
-       api: APIClient = .init(),
-       chatDataBase: ChatDataBase = .shared,
-       authentificationSession: AuthentificationService = .shared) {
-    self.webSocketService = webSocketService
-    self.authentificationSession = authentificationSession
+  init(api: APIClient = .init(),
+       chatDataBase: ChatDataBase = .shared) {
+    
     self.api = api
     self.chatDataBase = chatDataBase
     
-    Task {
-      for await message in webSocketService.stream {
-        switch message {
-        case.didReceive(let message):
-          guard let data = message.data(using: .utf8) else { return }
-          do {
-            didReceivedMessage.send(try await decode(data: data))
-          } catch {
-            print("Erreur de décodage: \(error)")
-          }
-          
-        default: break
-        }
-      }
-    }
   }
-  
-  private var syncTask: Task<(), any Error>?
   
   static func launch() {
-    Task {
-      for try await userSessionData in shared
-        .authentificationSession
-        .userSessionDataPublisher
-        .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
-        .values {
-          if userSessionData.didlaunched == false {
-            try await shared.chatDataBase.clean()
-          }
-        
-          if let token = userSessionData.usesrSession?.token {
-            try await shared.syncConversation(token: token)
-            shared.webSocketService.launch(token: token)
-          } else {
-            shared.webSocketService.stop()
-          }
-      }
-    }
+    _ = shared
   }
   
-  @concurrent func decode(data: Data) async throws -> WebSocketMessageData {
-    return try JSONDecoder().decode(WebSocketMessageData.self, from: data)
+  func updateUserSession(_ userSession: UserSession?, hasToBeenClean: Bool) async {
+    self.userSession = userSession
+    self.pendingTasks.values.forEach { $0.cancel() }
+    self.pendingTasks = [:]
+    
+    webSocketTask?.cancel()
+    webSocketService = nil
+    
+    if hasToBeenClean == true {
+      try? await chatDataBase.clean()
+    }
+    
+    if let userSession = userSession {
+      
+      webSocketTask = Task {
+        do {
+          try Task.checkCancellation()
+          let webSocketService = WebSocketService(token: userSession.token)
+          self.webSocketService = webSocketService
+          await webSocketService.launch()
+          try Task.checkCancellation()
+          for await message in webSocketService.stream {
+            switch message {
+            case.didReceive(let messageResponse):
+              NotificationCenter.default.post(name: .didReceiveMessage, object: messageResponse)
+            case .didConnected:
+              async let _ = syncConversation()
+            }
+          }
+        } catch {}
+      }
+    }
   }
   
   func syncConversation() async {
-    guard let token = authentificationSession.userSession?.token else { return }
-    do {
-      try await syncConversation(token: token)
-    } catch {}
+    guard let userSession else { return }
+    await syncAllConversations(userSession: userSession)
   }
 }
 
 private extension SyncMessageService {
-  func syncConversation(token: String) async throws {
-    if let syncTask {
-     try await syncTask.value
+  
+  func syncAllConversations(userSession: UserSession) async {
+    
+    let key = TaskKey.syncAllConversations
+    
+    if let task = pendingTasks[key] {
+      await task.value
     } else {
-     let task = Task {
-        defer { syncTask = nil }
+      let task = Task {
+        
+        defer {
+          pendingTasks.removeValue(forKey: key)
+        }
+        
         do {
-          let conversations = try await api.sendRequest(to: GetConversationEndpoint(token: token))
-          guard authentificationSession.userSession?.token == token else { return }
+          let conversations = try await api.sendRequest(to: GetConversationEndpoint(token: userSession.token))
+          try Task.checkCancellation()
           
           for conversation in conversations {
+            
             do {
-              if try await chatDataBase.userDidExist(id: conversation.profile.id) {
-                try await chatDataBase.updateUser(id: conversation.profile.id,
-                                                  username: conversation.profile.firstName)
-              } else {
-                try await chatDataBase.insertUser(id: conversation.profile.id,
-                                                  username: conversation.profile.firstName)
-              }
               
-              if try await chatDataBase.conversationDidExist(id: conversation.id) == false {
-                try await chatDataBase.insertConversation(id: conversation.id,
-                                                          createdAt: Date(), // FIXE me
-                                                          userId: conversation.profile.id)
-              }
+              try await chatDataBase.upsertUser(backendId: conversation.profile.id, username: conversation.profile.firstName)
+              try Task.checkCancellation()
+              try await chatDataBase.upsertConversation(backendId: conversation.id,
+                                                        createdAt: Date(), // FIXE me
+                                                        userBackendId: conversation.profile.id,
+                                                        referenceSeq: conversation.seq)
             } catch {
               
             }
           }
-        }
-       
-       NotificationCenter.default.post(name: .syncMessageServiceDidUpdate, object: NotificationState.didSyncConversation)
+          try Task.checkCancellation()
+          let allNotSyncConversations = try await chatDataBase.fetchAllNotSyncConversations()
+          
+          for conversation in allNotSyncConversations {
+            async let _ = syncConversation(conversationId: conversation.id, userSession: userSession)
+          }
+          NotificationCenter.default.post(name: .syncMessageServiceDidUpdate, object: NotificationState.didSyncConversation)
+        } catch {}
       }
-      syncTask = task
-      try await task.value
+      pendingTasks[key] = task
+      await task.value
+    }
+  }
+  
+  func syncConversation(conversationId: UUID, userSession: UserSession) async {
+    let key = TaskKey.syncConversation(conversationId: conversationId)
+    
+    if let task = pendingTasks[key] {
+      await task.value
+    } else {
+      let task = Task {
+        defer {
+          pendingTasks.removeValue(forKey: key)
+        }
+        
+        do {
+          guard let conversation = try await chatDataBase.fetchConversation(id: conversationId) else { return }
+          let getMessageByConversationEndpointData = try await api.sendRequest(to: GetMessageByConversationEndpoint(conversation: conversation.backendId,
+                                                                                                                    token: userSession.token))
+          try Task.checkCancellation()
+          let messages = getMessageByConversationEndpointData.messages.map {
+            MessageDataBaseInput(backendId: $0.id,
+                                 text: $0.message,
+                                 sentAt: Date(), // FIX ME
+                                 isCurrentUser: userSession.userId == $0.senderId,
+                                 seq: $0.seq)
+          }
+       
+          try await chatDataBase.insertMessages(in: conversation.id, messages: messages)
+        } catch {
+          
+        }
+      }
+      pendingTasks[key] = task
+      await task.value
     }
   }
 }
-

@@ -9,10 +9,14 @@ import Foundation
 
 struct ConversationDTO {
   let id: UUID
+  let backendId: UUID
   let createdAt: Date
   let participant: UserDTO
   
   static func map(from conversationModel: ConversationModel) -> Self {
-    .init(id: conversationModel.id, createdAt: conversationModel.createdAt, participant: .map(from: conversationModel.participant))
+    .init(id: conversationModel.id,
+          backendId: conversationModel.backendId,
+          createdAt: conversationModel.createdAt,
+          participant: .map(from: conversationModel.participant))
   }
 }

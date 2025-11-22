@@ -46,10 +46,15 @@ final class APIClient: APIClientProtocol  {
       request.addValue("Bearer \(tokenHandler.token)", forHTTPHeaderField: "Authorization")
     }
    
+    print("request \(request.url?.absoluteString ?? "")")
     do {
       let data = try await URLSession.shared.data(for: request)
       guard let httpResponse = data.1 as? HTTPURLResponse else { throw Error.invalidResponse }
-      guard (200...299).contains(httpResponse.statusCode) else { throw Error.requestFailed }
+      guard (200...299).contains(httpResponse.statusCode) else {
+        print("ERROR requestFailed \(String(data: data.0, encoding: .utf8) ?? "")")
+        throw Error.requestFailed
+      }
+      
       return try JSONDecoder().decode(T.Output.self, from: data.0)
     } catch {
     

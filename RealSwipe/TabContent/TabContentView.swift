@@ -17,7 +17,7 @@ struct TabContentView: View {
     ZStack {
       NavigationStack(path: $tabContentFlow.navigationPath) {
         TabView(selectedTabItem: $viewModel.id) {
-          MatchView(viewModel: MatchViewModel())
+          SwipeView(viewModel: SwipeViewModel())
             .tabItem(for: TabBarIdentifer.swipe)
             
           ConversationView(viewModel: ConversationViewModel(userSession: viewModel.userSession,
@@ -31,21 +31,13 @@ struct TabContentView: View {
   
         .navigationDestination(for: TabContentFlow.Screen.self) { screen in
           switch screen {
-          case .message(let conversationId):
-            ChatView(viewModel: ChatViewModel(userSession: viewModel.userSession, conversation: conversationId))
-              .id(conversationId) // USE unique UUID
-            
+          case .message(let conversationId, let user):
+            ChatView(viewModel: ChatViewModel(userSession: viewModel.userSession,
+                                              inputData: .init(convesationId: conversationId, user: user)))
+              .id(conversationId)
           }
         }
       }
     }.environmentObject(tabContentFlow)
-  }
-}
-
-struct DisplayOverlayModifier: ViewModifier {
-  func body(content: Content) -> some View {
-    ZStack {
-      content
-    }
   }
 }

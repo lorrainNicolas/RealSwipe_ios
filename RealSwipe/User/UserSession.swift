@@ -10,6 +10,7 @@ import Combine
 
 struct UserSession: Identifiable {
   let id = UUID()
+  
   static let key = "UserDefaults_User_Key"
   private let _didUpdate = PassthroughSubject<Void, Never>()
   var didUpdate: AnyPublisher<Void, Never> { _didUpdate.eraseToAnyPublisher() }
@@ -57,11 +58,3 @@ struct UserSession: Identifiable {
     }
   }
 }
-
-
-
-
-
-
-
-

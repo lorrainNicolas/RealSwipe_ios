@@ -9,49 +9,88 @@ import Foundation
 import ExyteChat
 import Combine
 
-struct WebSocketMessageData: Codable {
-    let message: String
-    let conversationId: UUID
-    let userId: UUID
-}
-
 @MainActor
 final class ChatViewModel: ObservableObject {
-
+  
+  struct InputData {
+    let convesationId: UUID
+    let user: String
+  }
+  
   @Published var messages: [Message] = []
-  @Published var chatTitle: String = ""
+  var chatTitle: String { inputData.user }
   
   private var bag = Set<AnyCancellable>()
+  private var refreshTask: Task<Void, any Error>?
 
-  let conversation: UUID
   let apiClient: APIClientProtocol
   let userSession: UserSession
-  
+  let chatDataBase: ChatDataBase
+  let inputData: InputData
+
   init(apiClient: APIClientProtocol = APIClient(),
        userSession: UserSession,
-       conversation: UUID) {
+       chatDataBase: ChatDataBase = .shared,
+       inputData: InputData) {
     self.apiClient = apiClient
-    self.conversation = conversation
+    self.inputData = inputData
     self.userSession = userSession
+    self.chatDataBase = chatDataBase
     
-    SyncMessageService.shared.didReceivedMessage.sink {
-      self.messages.append(Message(id: UUID().uuidString,
-                                   user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: false),
-                                   text: $0.message))
-    }.store(in: &bag)
+    NotificationCenter.default
+      .publisher(for: .syncMessageServiceDidUpdate)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] _ in
+        self?.refresh()
+      }.store(in: &bag)
+    
+    NotificationCenter.default
+      .publisher(for: .didReceiveMessage)
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] value in
+        
+        guard let message = value.object as? MessageResponse else { return }
+        self?.messages.append(Message(id: "\(message.id)",
+                                      user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: false),
+                                      status: .error(.init(text: "ded", medias: [], giphyMedia: nil, recording: nil, replyMessage: nil, createdAt: Date())),
+                                      text: message.message))
+      }.store(in: &bag)
 
+    refresh()
   }
   
   func send(draft: DraftMessage) {
-    Task {
-      self.messages.append(Message(id: UUID().uuidString,
-                                   user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: true),
-                                   text: draft.text))
+    let convesationId = inputData.convesationId
+    let token = userSession.token
+    Task {[weak self, apiClient, chatDataBase] in
+      do {
+        guard let conversationId = try await chatDataBase.fetchConversation(id: convesationId) else { return }
+        let message = try await apiClient.sendRequest(to: PostSendMessageEndpoint(data: .init(message: draft.text),
+                                                                                  conversationId: conversationId.backendId,
+                                                                                  token: token))
+        self?.messages.append(Message(id: "\(message.id)",
+                                      user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: true),
+                                      status: .read,
+                                      text: draft.text))
+        
+      } catch { }
+    }
+  }
+}
+
+private extension ChatViewModel {
+  
+  func refresh() {
+    let conversationId = inputData.convesationId
+    refreshTask?.cancel()
+    refreshTask = Task {[weak self] in
       
-      try await apiClient.sendRequest(to: PostSendMessageEndpoint(data: .init(message: draft.text),
-                                                                  conversation: conversation,
-                                                                  token: userSession.token))
-      
+      guard let messages = try await self?.chatDataBase.fetchAllMessages(in: conversationId).map ({
+        Message(id: "\($0.id)",
+                user: .init(id: "", name: "", avatarURL: nil, isCurrentUser: $0.isCurrentUser),
+                text: $0.text)
+      }), !Task.isCancelled else { return }
+      self?.messages = messages
     }
   }
 }

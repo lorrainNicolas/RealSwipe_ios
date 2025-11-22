@@ -35,25 +35,27 @@ struct CustomTextField: View {
       Rectangle()
         .foregroundColor(.white)
         .addBorder(Color.black, width: 0.1, cornerRadius: Constants.CircleRadius)
-      ZStack {
-        Circle()
-          .foregroundColor(Color(Colors.selectedTool))
-          .frame(width: Constants.CircleRadius, height: Constants.CircleRadius)
-          .onTapGesture {
-            if onTapButtonCallback?(text) ?? true {
-              UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
-          }
-        
-        if isLoading {
-          ProgressView()
-        } else {
-          Text(">")
-            .font(.custom("Poppins Bold", size: 30))
-            .foregroundColor(.white)
+      
+      Button.init {
+        if onTapButtonCallback?(text) ?? true {
+          UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
-      }.padding()
-        .frame(maxWidth: .infinity,alignment: .trailing)
+      } label: {
+        ZStack {
+          Circle()
+            .foregroundColor(Color(Colors.selectedTool))
+            .frame(width: Constants.CircleRadius, height: Constants.CircleRadius)
+
+          if isLoading {
+            ProgressView()
+          } else {
+            Text(">")
+              .font(.custom("Poppins Bold", size: 30))
+              .foregroundColor(.white)
+          }
+        }.padding()
+      }
+      .frame(maxWidth: .infinity, alignment: .trailing)
       Group {
         if isSecured {
           SecureField("", text: $text, prompt: Text(titleKey).foregroundColor(.gray))
@@ -68,6 +70,7 @@ struct CustomTextField: View {
        .padding(.trailing, Constants.textFieldTrailing)
        .disabled(isLoading)
     }.frame(height: Constants.height)
+      .geometryGroup()
   }
   
    func onTapButton(_ callback: @escaping (String) -> Bool) -> Self {
@@ -76,4 +79,4 @@ struct CustomTextField: View {
      return _self
   }
 }
- 
+

@@ -1,5 +1,5 @@
 //
-//  CardLabelView.swift
+//  ProfileLabelView.swift
 //  RealSwipe
 //
 //  Created by Utilisateur on 03/11/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CardLabelView: View {
+struct ProfileLabelView: View {
   let image: Image
   let text: String
   var body: some View {
