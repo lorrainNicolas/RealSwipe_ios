@@ -53,10 +53,11 @@ struct CardView: View {
         }
       }.animation(.linear, value: showLikeOverlay)
     }
-    .addBorder(.clear, width: 0, cornerRadius: 24)
+    
     .overlay {
       CardOverlayView()
     }
+    .addBorder(.clear, width: 0, cornerRadius: 24)
     .disabled(cardViewIsDragging)
   }
 }

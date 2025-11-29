@@ -10,10 +10,6 @@ import UIKit
 import SwiftUI
 
 enum LinearGradients {
-  static let componentBackground = LinearGradient(colors: [Color(Colors.componentBackground.withAlphaComponent(0.7)),
-                                                           Color(Colors.componentBackground)],
-                                                  startPoint: UnitPoint(x: 0.7, y: 0.7),
-                                                  endPoint: .bottomTrailing)
     
   static let selectedTool = LinearGradient(colors: [Color(UIColor(red: 231.0/255.0, green: 67.0/255.0, blue: 99.0/250.0, alpha: 1)),
                                                     Color(UIColor(red: 239.0/255.0, green: 126.0/255.0, blue: 97.0/250.0, alpha: 1))],

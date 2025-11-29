@@ -16,6 +16,7 @@ class AuthentificationService {
   }
   
   private let authTokenKey = "auth_token_key"
+  
   static let shared = AuthentificationService()
   
   private let keychainHelper: KeychainHelper
@@ -72,7 +73,7 @@ class AuthentificationService {
                 password: String,
                 birthday: TimeInterval) async throws {
     let logginData = try await apiClient.sendRequest(to: RegisterEndpoint( data: .init(firstName: firstName,
-                                                                                       genderId: 1,
+                                                                                       genderId: genderId,
                                                                                        email: email,
                                                                                        password: password,
                                                                                        birthday: birthday)))
@@ -80,9 +81,10 @@ class AuthentificationService {
     guard let authTokenData = logginData.authToken.data(using: .utf8) else { throw Error.failure }
     keychainHelper.save(authTokenKey, data: authTokenData)
     let userSession = UserSession.build(from: logginData.authToken,
-                                        user: User(userId: logginData.user.id,
+                                        user: UserSessionData(userId: logginData.user.id,
                                                    firstName: logginData.user.firstName,
-                                                   birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
+                                                              birthday: Date(timeIntervalSince1970: logginData.user.birthday),
+                                                              gender: Gender(rawValue: logginData.user.genderId)))
     _userSessionDataPublisher.send((usesrSession: userSession, didlaunched: false))
     
   }
@@ -92,10 +94,13 @@ class AuthentificationService {
                                                                                         password: password)))
     guard let authTokenData = logginData.authToken.data(using: .utf8) else { throw Error.failure }
     keychainHelper.save(authTokenKey, data: authTokenData)
+    print("tototo \( logginData.user.genderId)")
+    print("tototo \( Gender(rawValue: logginData.user.genderId))")
     let userSession = UserSession.build(from: logginData.authToken,
-                                        user: User(userId: logginData.user.id,
-                                                   firstName: logginData.user.firstName,
-                                                   birthday: Date(timeIntervalSince1970: logginData.user.birthday)))
+                                        user: UserSessionData(userId: logginData.user.id,
+                                                              firstName: logginData.user.firstName,
+                                                              birthday: Date(timeIntervalSince1970: logginData.user.birthday),
+                                                              gender: Gender(rawValue: logginData.user.genderId)))
     _userSessionDataPublisher.send((usesrSession: userSession, didlaunched: false))
   }
 }

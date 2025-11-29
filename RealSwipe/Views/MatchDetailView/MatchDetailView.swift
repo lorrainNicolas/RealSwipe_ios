@@ -15,11 +15,12 @@ struct MatchDetailView: View {
   
   var body: some View {
     VStack {
-      Button.init {
+      Button {
         dismiss()
       } label: {
         Image(systemName: "xmark")
-      }.frame(maxWidth: .infinity, alignment: .trailing)
+      }.buttonStyle(.plain)
+        .frame(maxWidth: .infinity, alignment: .trailing)
         .padding()
 
       ProfileView(viewModel: viewModel.profileViewModel) {

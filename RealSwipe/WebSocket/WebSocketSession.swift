@@ -14,6 +14,8 @@ actor WebSocketSession: NSObject, Identifiable, Sendable {
   enum WebSocketMessage {
     case didReceive(MessageResponse)
     case didConnected
+    case didDeleteConversation(UUID)
+    case didCreateConversation
   }
   
   enum State {
@@ -97,6 +99,8 @@ actor WebSocketSession: NSObject, Identifiable, Sendable {
           switch value {
           case .messageResponse(let messageResponse): streamContinuation.yield(.didReceive(messageResponse))
           case .connectedResponse: break
+          case .didDeleteConversation(let id): streamContinuation.yield(.didDeleteConversation(id))
+          case .didCreateConversation: streamContinuation.yield(.didCreateConversation)
           }
         }
       } catch {

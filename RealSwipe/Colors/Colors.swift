@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 enum Colors {
-  static let componentBackground = UIColor.white
+  static let componentBackground = Color(UIColor(red: 231.0/255.0, green: 67.0/255.0, blue: 99.0/250.0, alpha: 1))
   static let text = Color.white
   static let textPlaceHolder = Color.gray
   static let textInBox = Color.black

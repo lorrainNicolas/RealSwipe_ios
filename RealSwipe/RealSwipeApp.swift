@@ -27,24 +27,31 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
   ) -> Bool {
    
-    SyncMessageLauncher().launch()
+    SyncLauncher().launch()
     return true
   }
 }
 
 @MainActor
-class SyncMessageLauncher {
+class SyncLauncher {
   func launch() {
     
     SyncMessageService.launch()
+    SyncAccountService.launch()
     
     Task {
       for try await userSessionData in AuthentificationService.shared.userSessionDataPublisher
         .buffer(size: 1, prefetch: .byRequest, whenFull: .dropOldest)
         .values {
         
-        await SyncMessageService.shared.updateUserSession(userSessionData.usesrSession.map { .init(userId: $0.user.userId, token: $0.token)},
-                                                          hasToBeenClean: !userSessionData.didlaunched)
+        SyncAccountService.shared.stop()
+        SyncAccountService.shared.updateUserSession(userSessionData.usesrSession.map { .init(userId: $0.user.userId, token: $0.token)})
+        
+        await SyncMessageService.shared.stop()
+        if !userSessionData.didlaunched {
+          try? await ChatDataBase.shared.clean()
+        }
+        await SyncMessageService.shared.updateUserSession(userSessionData.usesrSession.map { .init(userId: $0.user.userId, token: $0.token)})
       }
     }
   }

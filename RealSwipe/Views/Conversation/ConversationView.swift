@@ -2,62 +2,39 @@
 //  ConversationView.swift
 //  RealSwipe
 //
-//  Created by Utilisateur on 26/02/2023.
+//  Created by Utilisateur on 28/11/2025.
 //
 
-import Foundation
 import SwiftUI
-
 
 struct ConversationView: View {
   
-  @StateObject var viewModel: ConversationViewModel
-  @EnvironmentObject var tabContentFlow: TabContentFlow
-  
-  var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      Text("Messages")
-        .font(.custom("Poppins Bold", size: 34))
-        .foregroundStyle(.white)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.leading)
-      
-      List {
-        ForEach(viewModel.conversations) { conversation in
-          
-          MessageView(userName: conversation.name, message: nil)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .contentShape(Rectangle())
-            .onTapGesture {
-              tabContentFlow.pushMessage(conversationId: conversation.id, conversationBackendId: conversation.conversationBackendId, user: conversation.name)
-          }.listRowBackground(Colors.contentBackground)
-        }
-      }.scrollContentBackground(.hidden)
-        .refreshable { await viewModel.refreshable() }
-        .safeAreaInset(edge: .bottom) {
-            Color.clear.frame(height: 100)
-        }
-    }
-  }
-}
-
-private struct MessageView: View {
-  let userName: String
-  let message: String?
+  @ObservedObject var viewModel: ConversationViewModel
   
   var body: some View {
     ZStack {
       HStack {
-        Circle()
-          .fill(.white)
-          .frame(height: 50)
+        ZStack {
+          
+          Circle()
+            .fill(.white)
+          
+          if let image = viewModel.profileImage {
+            Image(uiImage: image)
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: 50, height: 50)
+              .clipShape(Circle())
+          }
+        }
+        .frame(width: 50, height: 50)
         
         VStack(alignment: .leading) {
-          Text(userName)
+          Text(viewModel.name)
             .foregroundStyle(Colors.text)
             .lineLimit(1)
           
-          Text(message ?? " ")
+          Text(viewModel.message)
             .foregroundStyle(Colors.text)
             .lineLimit(1)
           
@@ -66,4 +43,3 @@ private struct MessageView: View {
     }
   }
 }
-

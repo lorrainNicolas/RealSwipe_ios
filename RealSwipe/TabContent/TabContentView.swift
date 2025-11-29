@@ -20,8 +20,8 @@ struct TabContentView: View {
           SwipeView(viewModel: SwipeViewModel())
             .tabItem(for: TabBarIdentifer.swipe)
             
-          ConversationView(viewModel: ConversationViewModel(userSession: viewModel.userSession,
-                                                            api: APIClient()))
+          ConversationListView(viewModel: ConversationListViewModel(userSession: viewModel.userSession,
+                                                                    api: APIClient()))
             .tabItem(for: TabBarIdentifer.message)
           
           SettingsView(viewModel: SettingsViewModel(userSession: viewModel.userSession))
@@ -31,10 +31,11 @@ struct TabContentView: View {
   
         .navigationDestination(for: TabContentFlow.Screen.self) { screen in
           switch screen {
-          case .message(let conversationId, let user):
+          case .chatView(let chatScreenModel):
             ChatView(viewModel: ChatViewModel(userSession: viewModel.userSession,
-                                              inputData: .init(convesationId: conversationId, user: user)))
-              .id(conversationId)
+                                              inputData: .init(conversationLocalId: chatScreenModel.conversationLocalId,
+                                                               user: chatScreenModel.user)))
+            .id(screen.id)
           }
         }
       }

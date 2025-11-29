@@ -62,12 +62,6 @@ struct LogginView<ViewModel: LogginViewModelProtocol>: View {
       .alert("Something wrong happened", isPresented: $viewModel.showFailureAlert) {
           Button("OK", role: .cancel) { }
       }
-      .background(Image("Spline")
-      .opacity(0.7)
-      .blur(radius: 50))
   }
 }
-
-
-
 

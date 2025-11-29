@@ -12,6 +12,8 @@ actor WebSocketService {
   enum WebSocketMessage {
     case didReceive(MessageResponse)
     case didConnected
+    case didDeleteConversation(UUID)
+    case didCreateConversation
   }
   
   let stream: AsyncStream<WebSocketMessage>
@@ -54,6 +56,8 @@ actor WebSocketService {
           switch message {
           case .didConnected: self?.streamContinuation.yield(.didConnected)
           case .didReceive(let messageResponse): self?.streamContinuation.yield(.didReceive(messageResponse))
+          case .didDeleteConversation(let id): self?.streamContinuation.yield(.didDeleteConversation(id))
+          case .didCreateConversation: self?.streamContinuation.yield(.didCreateConversation)
           }
         }
       } catch {
@@ -61,7 +65,6 @@ actor WebSocketService {
         if let error = error as? WebSocketSession.Failure, error == .cancel {
           return
         }
-        
         guard !Task.isCancelled else { return }
         
         try? await Task.sleep(for: .seconds(30))

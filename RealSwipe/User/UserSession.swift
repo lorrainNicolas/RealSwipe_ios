@@ -17,14 +17,14 @@ struct UserSession: Identifiable {
   
   let token: String
   
-  var user: User {
+  var user: UserSessionData {
     didSet {
       save()
       _didUpdate.send(())
     }
   }
   
-  private init(token: String, user: User) {
+  private init(token: String, user: UserSessionData) {
     self.token = token
     self.user = user
     save()
@@ -39,15 +39,15 @@ struct UserSession: Identifiable {
     UserDefaults.standard.set(encoded, forKey: Self.key)
   }
   
-  static func build(from token: String, user: User) -> UserSession {
-    let userSession = UserSession.init(token: token, user: user)
+  static func build(from token: String, user: UserSessionData) -> UserSession {
+    let userSession = UserSession(token: token, user: user)
     userSession.save()
     return userSession
   }
   
   static func loadFromCache(token: String) -> UserSession? {
     if let userData = UserDefaults.standard.data(forKey: Self.key) {
-      if let user = try? JSONDecoder().decode(User.self, from: userData) {
+      if let user = try? JSONDecoder().decode(UserSessionData.self, from: userData) {
         return .init(token: token, user: user)
       } else {
         UserDefaults.standard.removeObject(forKey: key)

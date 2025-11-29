@@ -133,7 +133,7 @@ struct CardViewModifier: ViewModifier {
   
   private func likeCard() {
     onFinishAnimation = true
-    withAnimation(.linear(duration: 0.3), completionCriteria: .removed) {
+    withAnimation(.linear(duration: 0.2), completionCriteria: .removed) {
       translation.x = parentGeometryProxy.size.width
     } completion: {
       onFinishAnimation = false
@@ -143,7 +143,7 @@ struct CardViewModifier: ViewModifier {
   
   private func dislikeCard() {
     onFinishAnimation = true
-    withAnimation(.linear(duration: 0.3), completionCriteria: .removed) {
+    withAnimation(.linear(duration: 0.2), completionCriteria: .removed) {
       translation.x = -parentGeometryProxy.size.width
     } completion: {
       onFinishAnimation = false
